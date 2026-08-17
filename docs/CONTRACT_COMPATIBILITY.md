@@ -31,3 +31,17 @@ These rules apply to shared `core-model` and `core-datalayer` contracts consumed
 
 - Require contract encode/decode tests to pass in this repo.
 - Add consumer CI checks to keep phone/watch pinned to the same compatible shared version.
+- Maintain contract test coverage in `core-datalayer/src/test/kotlin/com/exposures/datalayer/contract/`.
+
+## Audit-first execution policy
+
+- Before each abstraction step, re-audit both app repos (`exposures-phone`, `exposures-watch`) for meaningful shared-surface changes.
+- Keep `exposures-common` current with meaningful Phase 8/9-driven changes before replacing consumer modules.
+- Do not remove/replace shared code in consumer repos until a post-change rebaseline is documented.
+- Rebaseline output should include:
+  - Current shared-candidate inventory (`core-model`, `core-datalayer`, and safe database-common slices)
+  - Explicit include/exclude decisions and rationale
+  - Required compatibility/versioning actions for any changed DTO/model surfaces
+- Use:
+  - `scripts/rebaseline-audit.sh`
+  - `docs/rebaseline/CHECKLIST.md`

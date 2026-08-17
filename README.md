@@ -25,3 +25,22 @@ This repo centralizes shared model and Data Layer contract/runtime code so phone
 ## Compatibility policy
 
 See `docs/CONTRACT_COMPATIBILITY.md`.
+
+## Contract test scaffolding
+
+Initial scaffolding exists under:
+
+- `core-datalayer/src/test/kotlin/com/exposures/datalayer/contract/ContractPathsSnapshotTest.kt`
+- `core-datalayer/src/test/kotlin/com/exposures/datalayer/contract/ContractJsonCompatibilityScaffoldTest.kt`
+
+These start as snapshot/pending checks and are intended to become strict parity/fixture tests after shared Data Layer sources are fully migrated into this repo.
+
+## Rebaseline audit tooling
+
+- Checklist: `docs/rebaseline/CHECKLIST.md`
+- Script: `scripts/rebaseline-audit.sh`
+
+Run from repo root:
+
+- `./scripts/rebaseline-audit.sh`
+- `./scripts/rebaseline-audit.sh --output docs/rebaseline/report-YYYY-MM-DD.md`

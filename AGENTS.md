@@ -17,6 +17,8 @@ For shared-library boundaries, contract compatibility, and extraction sequencing
 - `README.md`
 - `docs/CONTRACT_COMPATIBILITY.md`
 
+`docs/CONTRACT_COMPATIBILITY.md` is also the source of truth for the audit-first execution policy (re-audit/rebaseline before consumer replacement work).
+
 For phone app architecture, component ownership, and where to implement phone-side changes, invoke the `describe-phone-architecture` skill (lives in `~/.claude/skills/` — global, not part of this repo, so it stays available regardless of which Exposures repo a session started in).
 
 For watch app architecture, sync model behavior, and where to implement watch-side changes, invoke the `describe-watch-architecture` skill (lives in `~/.claude/skills/` — global, not part of this repo, so it stays available regardless of which Exposures repo a session started in).
