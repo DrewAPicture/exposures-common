@@ -17,7 +17,9 @@ For shared-library boundaries, contract compatibility, and extraction sequencing
 - `README.md`
 - `docs/CONTRACT_COMPATIBILITY.md`
 
-For app-specific architecture concerns, defer to the corresponding app repo guidance (`exposures-phone` or `exposures-watch`).
+For phone app architecture, component ownership, and where to implement phone-side changes, invoke the `describe-phone-architecture` skill (lives in `~/.claude/skills/` — global, not part of this repo, so it stays available regardless of which Exposures repo a session started in).
+
+For watch app architecture, sync model behavior, and where to implement watch-side changes, invoke the `describe-watch-architecture` skill (lives in `~/.claude/skills/` — global, not part of this repo, so it stays available regardless of which Exposures repo a session started in).
 
 ## Kotlin best practices
 
