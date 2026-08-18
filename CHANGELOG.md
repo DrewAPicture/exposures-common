@@ -1,6 +1,24 @@
 # Changelog
 
-All notable changes to `exposures-common`'s public surface (`core-model`, `core-datalayer`) are recorded here.
+All notable changes to `exposures-common`'s public surface (`core-model`, `core-datalayer`, `core-database-common`) are recorded here.
+
+## [0.2.0] — 2026-08-18: core-database-common (Phase 6)
+
+Minor bump — new module, purely additive, no changes to `core-model`/`core-datalayer`.
+
+Adds `core-database-common`, extracting the `core-database` pieces the rebaseline audit has consistently found byte-identical between `phone`/`watch` and free of the FK/repository divergence that keeps the rest of `core-database` local (Phase 6 is explicitly marked optional in the plan):
+
+- `Converters.kt` — Room `TypeConverter`s for `core-model` enums/value types.
+- `entity/{CameraBodyEntity,LensEntity,LightMeterEntity}.kt`. `LensEntity`'s real `@ForeignKey` to `CameraBodyEntity` moves safely since both sides of that FK are in this module.
+- `mapper/Mappers.kt` — only the `CameraBody`/`Lens`/`LightMeter` `toDomain()`/`toEntity()` functions, not the full file.
+
+Not extracted: `ExposureEntity`, `FilmBackEntity`, `FilmRollEntity` (real `@ForeignKey` on phone, `@Index`-only on watch — intentional divergence from `exp-real-device-fixes-plan.md` Phase 8), `ReferencePhotoEntity` (phone-only), `AppStateEntity`/`CaptureRequestOutboxEntity` (watch-only), and the remaining local repositories/DAOs/`ExposuresDatabase`.
+
+A plain `kotlin-jvm` module (not an Android library like `core-datalayer`): `androidx.room:room-common` resolves to `room-common-jvm`, a plain JAR with just the Room annotations — no AGP/Android SDK needed since nothing here touches actual Android APIs.
+
+### Compatibility notes
+
+Purely additive (new module, new artifact coordinate `com.exposures.common:core-database-common`) — no existing consumer behavior changes.
 
 ## [0.1.1] — 2026-08-18: CI/publishing infrastructure
 
