@@ -21,15 +21,18 @@ These rules apply to shared `core-model` and `core-datalayer` contracts consumed
 
 ## Spec strategy
 
-- Use OpenAPI for actual HTTP boundaries (primarily phone backend APIs).
-- Use a dedicated Data Layer contract spec for watch<->phone payloads:
+- Use OpenAPI for actual HTTP boundaries (primarily phone backend APIs). The phone-side spec lives in `exposures-phone` at `docs/openapi/sync-api.json`, generated from `SyncApi` + `core-sync` DTOs. Regenerate with `./gradlew :core-sync:test -PupdateOpenApiSpec`.
+- Use a dedicated Data Layer contract spec for watch<->phone payloads (`docs/contracts/data-layer.json` in this repo):
   - DataItem paths
   - Message command paths
   - DTO schema/defaults/requiredness
+  - Writer/reader authority per path
+- Both specs are generated from source (kotlinx.serialization descriptors and, for OpenAPI, Retrofit annotations). Do not edit the JSON by hand.
 
 ## CI guardrails
 
 - Require contract encode/decode tests to pass in this repo.
+- Require `ContractSpecDriftTest` to pass: it regenerates `docs/contracts/data-layer.json` from source and fails if the checked-in spec drifted. After an intentional contract change, regenerate with `./gradlew :core-datalayer:testDebugUnitTest -PupdateContractSpec` and commit the spec diff in the same change.
 - Add consumer CI checks to keep phone/watch pinned to the same compatible shared version.
 - Maintain contract test coverage in `core-datalayer/src/test/kotlin/com/exposures/datalayer/contract/`.
 

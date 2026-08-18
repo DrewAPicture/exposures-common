@@ -36,8 +36,9 @@ See `CHANGELOG.md` for the baseline snapshot of what's currently populated and (
 
 - `core-datalayer/src/test/kotlin/com/exposures/datalayer/contract/ContractPathsSnapshotTest.kt` — strict parity between a hand-maintained snapshot and `DataLayerPaths`' actual constants (values, uniqueness, and no undeclared/missing constants).
 - `core-datalayer/src/test/kotlin/com/exposures/datalayer/contract/ContractJsonCompatibilityTest.kt` — DTO/JSON compatibility: defaulted fields decode safely from payloads written before they existed, unknown fields from a newer writer don't break an older reader, and canonical DTOs round-trip through encode/decode.
+- `core-datalayer/src/test/kotlin/com/exposures/datalayer/contract/ContractSpecDriftTest.kt` — regenerates the machine-readable spec at `docs/contracts/data-layer.json` from `DataLayerPaths` + DTO serializers and fails CI if the checked-in file drifted. After an intentional contract change: `./gradlew :core-datalayer:testDebugUnitTest -PupdateContractSpec`.
 
-Both were scaffolded as `@Ignore`d placeholders before shared Data Layer sources existed in this repo; now that `core-datalayer` is populated, they run for real on every `./gradlew test`.
+Both of the first two were scaffolded as `@Ignore`d placeholders before shared Data Layer sources existed in this repo; now that `core-datalayer` is populated, they run for real on every `./gradlew test`. The drift test is the plan's "regenerate and diff" CI gate.
 
 ## Rebaseline audit tooling
 

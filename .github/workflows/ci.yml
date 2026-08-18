@@ -26,3 +26,5 @@ jobs:
 
       - name: Run tests
         run: ./gradlew test
+        # Includes ContractSpecDriftTest, which regenerates docs/contracts/data-layer.json from
+        # source and fails if the checked-in spec drifted.

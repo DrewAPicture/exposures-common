@@ -1,0 +1,660 @@
+{
+  "contract": "exposures-data-layer",
+  "description": "Wear Data Layer contract shared by exposures-phone and exposures-watch. Regenerated from DataLayerPaths and kotlinx.serialization descriptors. Update with ./gradlew :core-datalayer:testDebugUnitTest -PupdateContractSpec",
+  "encoding": {
+    "format": "json",
+    "ignoreUnknownKeys": true,
+    "encodeDefaults": false
+  },
+  "compatibility": {
+    "policy": "docs/CONTRACT_COMPATIBILITY.md",
+    "evolution": "additive-by-default",
+    "breaking": "field removal/rename/type-change is a major version with coordinated phone+watch rollout",
+    "enumAdditions": "allowed only when every consumer handles unknown values without unchecked valueOf"
+  },
+  "paths": {
+    "CAMERA_BODIES": {
+      "value": "/equipment/camera-bodies",
+      "kind": "dataItem",
+      "writer": "phone",
+      "reader": "watch",
+      "payload": {
+        "$ref": "CameraBodyDto",
+        "cardinality": "array"
+      }
+    },
+    "CAPABILITY_EXPOSURES_APP": {
+      "value": "exposures_app",
+      "kind": "capability",
+      "notes": "both apps advertise this so each side can find the other's connected node"
+    },
+    "CAPTURE_PHOTO_COMMAND": {
+      "value": "/command/capture-photo",
+      "kind": "command",
+      "writer": "watch",
+      "reader": "phone",
+      "payload": {
+        "$ref": "CapturePhotoCommand",
+        "cardinality": "object"
+      }
+    },
+    "CAPTURE_RESULT_COMMAND": {
+      "value": "/command/capture-result",
+      "kind": "command",
+      "writer": "phone",
+      "reader": "watch",
+      "payload": {
+        "$ref": "CaptureResultCommand",
+        "cardinality": "object"
+      }
+    },
+    "COMPLETE_ROLL_COMMAND": {
+      "value": "/command/complete-roll",
+      "kind": "command",
+      "writer": "watch",
+      "reader": "phone",
+      "payload": {
+        "$ref": "CompleteRollCommand",
+        "cardinality": "object"
+      }
+    },
+    "CONNECTIVITY_PING_ACK_COMMAND": {
+      "value": "/command/connectivity-ping-ack",
+      "kind": "command",
+      "writer": "phone",
+      "reader": "watch",
+      "notes": "empty payload"
+    },
+    "CONNECTIVITY_PING_COMMAND": {
+      "value": "/command/connectivity-ping",
+      "kind": "command",
+      "writer": "watch",
+      "reader": "phone",
+      "notes": "empty payload"
+    },
+    "EXPOSURES": {
+      "value": "/exposures",
+      "kind": "dataItem",
+      "writer": "watch",
+      "reader": "phone",
+      "payload": {
+        "$ref": "ExposureDto",
+        "cardinality": "array"
+      }
+    },
+    "FILM_BACKS": {
+      "value": "/equipment/film-backs",
+      "kind": "dataItem",
+      "writer": "phone",
+      "reader": "watch",
+      "payload": {
+        "$ref": "FilmBackDto",
+        "cardinality": "array"
+      }
+    },
+    "KEY_PAYLOAD": {
+      "value": "payload",
+      "kind": "payloadKey",
+      "notes": "DataMap key for the JSON payload; DataMap also carries an updatedAt timestamp that is not part of the JSON contract"
+    },
+    "LENSES": {
+      "value": "/equipment/lenses",
+      "kind": "dataItem",
+      "writer": "phone",
+      "reader": "watch",
+      "payload": {
+        "$ref": "LensDto",
+        "cardinality": "array"
+      }
+    },
+    "LIGHT_METERS": {
+      "value": "/equipment/light-meters",
+      "kind": "dataItem",
+      "writer": "phone",
+      "reader": "watch",
+      "payload": {
+        "$ref": "LightMeterDto",
+        "cardinality": "array"
+      }
+    },
+    "PHOTO_STATUSES": {
+      "value": "/photo-status",
+      "kind": "dataItem",
+      "writer": "phone",
+      "reader": "watch",
+      "payload": {
+        "$ref": "PhotoStatusDto",
+        "cardinality": "array"
+      }
+    },
+    "REQUEST_ROLLS_SYNC_COMMAND": {
+      "value": "/command/request-rolls-sync",
+      "kind": "command",
+      "writer": "watch",
+      "reader": "phone",
+      "notes": "empty payload; phone responds by pushing current equipment/roll DataItems"
+    },
+    "ROLLS": {
+      "value": "/rolls",
+      "kind": "dataItem",
+      "writer": "phone",
+      "reader": "watch",
+      "payload": {
+        "$ref": "FilmRollDto",
+        "cardinality": "array"
+      }
+    }
+  },
+  "schemas": {
+    "ShutterSpeedDto": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.ShutterSpeedDto",
+      "fields": [
+        {
+          "name": "kind",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "numerator",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "denominator",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        }
+      ]
+    },
+    "CameraBodyDto": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.CameraBodyDto",
+      "fields": [
+        {
+          "name": "id",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "manufacturer",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "availableShutterSpeeds",
+          "optional": false,
+          "nullable": false,
+          "type": "array",
+          "items": {
+            "$ref": "ShutterSpeedDto"
+          }
+        },
+        {
+          "name": "hasBulbMode",
+          "optional": false,
+          "nullable": false,
+          "type": "boolean"
+        },
+        {
+          "name": "createdAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "updatedAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "remoteId",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        }
+      ]
+    },
+    "LensDto": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.LensDto",
+      "fields": [
+        {
+          "name": "id",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "cameraBodyId",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "name": "minAperture",
+          "optional": false,
+          "nullable": false,
+          "type": "number"
+        },
+        {
+          "name": "maxAperture",
+          "optional": false,
+          "nullable": false,
+          "type": "number"
+        },
+        {
+          "name": "stopIncrement",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "referencePhotoZoomRatio",
+          "optional": true,
+          "nullable": false,
+          "type": "number"
+        },
+        {
+          "name": "createdAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "updatedAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "remoteId",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        }
+      ]
+    },
+    "LightMeterDto": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.LightMeterDto",
+      "fields": [
+        {
+          "name": "id",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "manufacturer",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "type",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "createdAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "updatedAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "remoteId",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        }
+      ]
+    },
+    "FilmBackDto": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.FilmBackDto",
+      "fields": [
+        {
+          "name": "id",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "cameraBodyId",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "type",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "availableFrameCounts",
+          "optional": false,
+          "nullable": false,
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "createdAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "updatedAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "remoteId",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        }
+      ]
+    },
+    "FilmRollDto": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.FilmRollDto",
+      "fields": [
+        {
+          "name": "id",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "filmStock",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "boxSpeedIso",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "format",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "colorType",
+          "optional": true,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "cameraBodyId",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "lightMeterId",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "name": "filmBackId",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "targetFrameCount",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "status",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "createdAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "updatedAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "remoteId",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        }
+      ]
+    },
+    "ExposureDto": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.ExposureDto",
+      "fields": [
+        {
+          "name": "id",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "filmRollId",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "frameNumber",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "lensId",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "shutterSpeed",
+          "optional": false,
+          "nullable": false,
+          "$ref": "ShutterSpeedDto"
+        },
+        {
+          "name": "aperture",
+          "optional": false,
+          "nullable": false,
+          "type": "number"
+        },
+        {
+          "name": "isoUsed",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "zone",
+          "optional": true,
+          "nullable": true,
+          "type": "integer"
+        },
+        {
+          "name": "notes",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "name": "capturedAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "referencePhotoStatus",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "createdAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "updatedAt",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        },
+        {
+          "name": "remoteId",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        }
+      ]
+    },
+    "PhotoStatusDto": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.PhotoStatusDto",
+      "fields": [
+        {
+          "name": "exposureId",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "referencePhotoStatus",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "remoteUrl",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        }
+      ]
+    },
+    "CapturePhotoCommand": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.CapturePhotoCommand",
+      "fields": [
+        {
+          "name": "exposureId",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "filmRollId",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "frameNumber",
+          "optional": false,
+          "nullable": false,
+          "type": "integer"
+        }
+      ]
+    },
+    "CaptureResultCommand": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.CaptureResultCommand",
+      "fields": [
+        {
+          "name": "exposureId",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        }
+      ]
+    },
+    "CompleteRollCommand": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.CompleteRollCommand",
+      "fields": [
+        {
+          "name": "rollId",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        }
+      ]
+    }
+  }
+}

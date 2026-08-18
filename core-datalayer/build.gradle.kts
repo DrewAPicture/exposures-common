@@ -21,6 +21,15 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            all {
+                it.systemProperty(
+                    "datalayer.contract.spec",
+                    rootProject.file("docs/contracts/data-layer.json").absolutePath,
+                )
+                if (project.hasProperty("updateContractSpec")) {
+                    it.systemProperty("updateContractSpec", "true")
+                }
+            }
         }
     }
 
