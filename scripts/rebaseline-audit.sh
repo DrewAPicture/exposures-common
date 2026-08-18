@@ -28,9 +28,17 @@ fi
 
 mkdir -p "$(dirname "${OUTPUT_PATH}")"
 
-declare -a database_candidate_files=(
-  "core-database/src/main/kotlin/com/exposures/database/Converters.kt"
+# Remaining local core-database files that were never extracted (intentional
+# divergence). Informational only — a drift here is expected, not a regression.
+declare -a database_remaining_local_files=(
   "core-database/src/main/kotlin/com/exposures/database/mapper/Mappers.kt"
+  "core-database/src/main/kotlin/com/exposures/database/entity/ExposureEntity.kt"
+  "core-database/src/main/kotlin/com/exposures/database/entity/FilmBackEntity.kt"
+  "core-database/src/main/kotlin/com/exposures/database/entity/FilmRollEntity.kt"
+)
+
+declare -a extracted_database_files=(
+  "core-database/src/main/kotlin/com/exposures/database/Converters.kt"
   "core-database/src/main/kotlin/com/exposures/database/entity/CameraBodyEntity.kt"
   "core-database/src/main/kotlin/com/exposures/database/entity/LensEntity.kt"
   "core-database/src/main/kotlin/com/exposures/database/entity/LightMeterEntity.kt"
@@ -67,16 +75,20 @@ compare_file_group() {
   echo >> "${OUTPUT_PATH}"
 }
 
-# Post-Phase-4 (exp-shared-library-feasibility-plan.md): phone/watch no longer carry local
-# core-model/core-datalayer at all — this repo is the sole source, consumed via composite build.
-# There's nothing left to diff between two copies, so this is now a regression guard: fail loudly
-# if either app repo ever reintroduces a local copy (accidental revert, bad merge, etc.), since
-# that would silently reopen the exact drift this whole extraction existed to close.
+# Post-Phase-4 (exp-shared-library-feasibility-plan.md): phone/watch no longer
+# carry local core-model/core-datalayer at all — this repo is the sole source.
+# There's nothing left to diff between two copies, so this is now a regression
+# guard: fail loudly if either app repo ever reintroduces a local copy
+# (accidental revert, bad merge, etc.), since that would silently reopen the
+# exact drift this whole extraction existed to close.
+#
+# Post-Phase-6: the same for the four extracted core-database files now owned
+# by core-database-common.
 check_no_local_reintroduction() {
   {
-    echo "## Local core-model/core-datalayer Reintroduction Guard"
+    echo "## Local shared-source Reintroduction Guard"
     echo
-    echo "| Repo | Module | Status |"
+    echo "| Repo | Path | Status |"
     echo "|---|---|---|"
   } >> "${OUTPUT_PATH}"
 
@@ -85,8 +97,9 @@ check_no_local_reintroduction() {
     local repo_name
     repo_name="$(basename "${repo_dir}")"
     for module in "core-model" "core-datalayer"; do
-      # Check for build.gradle.kts, not just the directory: a gitignored build/ output dir can
-      # outlive the deleted module (stale Gradle cache) without meaning source was reintroduced.
+      # Check for build.gradle.kts, not just the directory: a gitignored build/
+      # output dir can outlive the deleted module (stale Gradle cache) without
+      # meaning source was reintroduced.
       if [[ -f "${repo_dir}/${module}/build.gradle.kts" ]]; then
         echo "| \`${repo_name}\` | \`${module}\` | **reintroduced — investigate** |" >> "${OUTPUT_PATH}"
         reintroduced=1
@@ -94,11 +107,21 @@ check_no_local_reintroduction() {
         echo "| \`${repo_name}\` | \`${module}\` | absent (expected) |" >> "${OUTPUT_PATH}"
       fi
     done
+    for rel in "${extracted_database_files[@]}"; do
+      local short
+      short="$(basename "${rel}")"
+      if [[ -f "${repo_dir}/${rel}" ]]; then
+        echo "| \`${repo_name}\` | \`${short}\` | **reintroduced — investigate** |" >> "${OUTPUT_PATH}"
+        reintroduced=1
+      else
+        echo "| \`${repo_name}\` | \`${short}\` | absent (expected) |" >> "${OUTPUT_PATH}"
+      fi
+    done
   done
   echo >> "${OUTPUT_PATH}"
 
   if [[ "${reintroduced}" -eq 1 ]]; then
-    echo "WARNING: a local core-model/core-datalayer module was reintroduced in phone or watch — see report." >&2
+    echo "WARNING: extracted shared source was reintroduced in phone or watch — see report." >&2
   fi
 }
 
@@ -114,7 +137,7 @@ check_no_local_reintroduction() {
 } > "${OUTPUT_PATH}"
 
 check_no_local_reintroduction
-compare_file_group "Database Common Candidates (Informational)" "${database_candidate_files[@]}"
+compare_file_group "Database Remaining-Local Candidates (Informational)" "${database_remaining_local_files[@]}"
 
 {
   echo "## Manual follow-up"

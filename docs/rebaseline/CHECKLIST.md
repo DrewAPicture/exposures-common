@@ -1,8 +1,8 @@
 # Rebaseline Audit Checklist
 
-**Post-Phase-4 note**: `phone`/`watch` no longer carry local `core-model`/`core-datalayer` at all (deleted once Phase 4 landed) — this repo is the sole source, consumed via composite build. Steps 3/6 below described the pre-Phase-4 world, where the script diffed two local copies to find drift before extraction; that comparison no longer applies; `rebaseline-audit.sh` now runs a reintroduction guard (fails loudly if either app repo ever gets a local `core-model`/`core-datalayer` back) plus the still-relevant Database Common Candidates comparison. Kept for historical reference and in case a similar phased extraction (e.g. Phase 6's `core-database` pieces) needs the same process again.
+**Post-Phase-6 note**: `phone`/`watch` no longer carry local `core-model`/`core-datalayer`, nor local copies of the four Phase-6-extracted database files (`Converters.kt`, `CameraBodyEntity.kt`, `LensEntity.kt`, `LightMeterEntity.kt`) — this repo is the sole source, consumed as published Maven artifacts. Steps 3/6 below described the pre-extraction world, where the script diffed two local copies to find drift before extraction; `rebaseline-audit.sh` now runs a reintroduction guard (fails loudly if either app repo ever gets extracted shared source back) plus an informational comparison of remaining local `core-database` files that were never extracted (intentional divergence). Kept for historical reference.
 
-Use this checklist whenever meaningful shared-surface changes land in `exposures-phone` and/or `exposures-watch` (for example after Phases 8/9).
+Use this checklist whenever meaningful shared-surface changes land in `exposures-phone` and/or `exposures-watch`.
 
 ## 1) Prepare
 
@@ -19,11 +19,10 @@ Use this checklist whenever meaningful shared-surface changes land in `exposures
 
 ## 3) Review results
 
-- Confirm the reintroduction guard shows `absent (expected)` for `core-model`/`core-datalayer` in both `phone` and `watch`. Anything else means a local copy came back — investigate before doing anything else (a bad merge/revert is the likely cause).
-- Review database-common candidates for extraction (non-blocking):
-  - `Converters.kt`
-  - `mapper/Mappers.kt`
-  - entities that might be safely shared
+- Confirm the reintroduction guard shows `absent (expected)` for `core-model`/`core-datalayer` and the four extracted database files in both `phone` and `watch`. Anything else means a local copy came back — investigate before doing anything else (a bad merge/revert is the likely cause).
+- Review remaining-local database files (non-blocking, expected to stay drifted):
+  - `mapper/Mappers.kt` (phone still has ReferencePhoto mappers; both use `@file:JvmName("AppMappersKt")`)
+  - `ExposureEntity` / `FilmBackEntity` / `FilmRollEntity` (intentional FK divergence)
 
 ## 4) Make extraction decisions
 
@@ -43,7 +42,7 @@ Use this checklist whenever meaningful shared-surface changes land in `exposures
 
 ## 6) Sign-off gate before consumer replacement
 
-Historical: this was the gate before Phase 4's `core-model`/`core-datalayer` deletion (already done). Reapply the same gate before any future phase that removes duplicated consumer-repo source (e.g. Phase 6's `core-database` pieces, if pursued):
+Historical: this was the gate before Phase 4's `core-model`/`core-datalayer` deletion and Phase 6's `core-database-common` wiring (both already done). Reapply the same gate before any future phase that removes duplicated consumer-repo source:
 
 - Rebaseline report exists and is linked in the work item/PR.
 - Include/exclude decisions are explicit.
