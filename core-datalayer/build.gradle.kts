@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.serialization)
+    `maven-publish`
 }
 
 android {
@@ -22,6 +23,12 @@ android {
             isIncludeAndroidResources = true
         }
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -37,4 +44,25 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.coroutines.test)
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            afterEvaluate { from(components["release"]) }
+            artifactId = "core-datalayer"
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/DrewAPicture/exposures-common")
+            credentials {
+                // GITHUB_TOKEN/GITHUB_ACTOR in CI (publish.yml); gpr.token/gpr.user project
+                // properties (e.g. ~/.gradle/gradle.properties, never committed) for a local publish.
+                username = System.getenv("GITHUB_ACTOR") ?: findProperty("gpr.user") as String?
+                password = System.getenv("GITHUB_TOKEN") ?: findProperty("gpr.token") as String?
+            }
+        }
+    }
 }
