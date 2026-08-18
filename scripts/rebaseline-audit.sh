@@ -28,38 +28,6 @@ fi
 
 mkdir -p "$(dirname "${OUTPUT_PATH}")"
 
-declare -a core_datalayer_files=(
-  "core-datalayer/src/main/kotlin/com/exposures/datalayer/DataLayerPaths.kt"
-  "core-datalayer/src/main/kotlin/com/exposures/datalayer/DataLayerJson.kt"
-  "core-datalayer/src/main/kotlin/com/exposures/datalayer/DataLayerClient.kt"
-  "core-datalayer/src/main/kotlin/com/exposures/datalayer/DataLayerGateway.kt"
-  "core-datalayer/src/main/kotlin/com/exposures/datalayer/dto/Dtos.kt"
-  "core-datalayer/src/main/kotlin/com/exposures/datalayer/mapper/DtoMappers.kt"
-)
-
-declare -a core_model_files=(
-  "core-model/src/main/kotlin/com/exposures/model/CameraBody.kt"
-  "core-model/src/main/kotlin/com/exposures/model/Lens.kt"
-  "core-model/src/main/kotlin/com/exposures/model/FilmRoll.kt"
-  "core-model/src/main/kotlin/com/exposures/model/Exposure.kt"
-  "core-model/src/main/kotlin/com/exposures/model/ShutterSpeed.kt"
-  "core-model/src/main/kotlin/com/exposures/model/Zone.kt"
-  "core-model/src/main/kotlin/com/exposures/model/FilmBack.kt"
-  "core-model/src/main/kotlin/com/exposures/model/FilmBackType.kt"
-  "core-model/src/main/kotlin/com/exposures/model/FilmColorType.kt"
-  "core-model/src/main/kotlin/com/exposures/model/FilmFormat.kt"
-  "core-model/src/main/kotlin/com/exposures/model/FrameNumbering.kt"
-  "core-model/src/main/kotlin/com/exposures/model/LightMeter.kt"
-  "core-model/src/main/kotlin/com/exposures/model/LightMeterType.kt"
-  "core-model/src/main/kotlin/com/exposures/model/PhotoStatus.kt"
-  "core-model/src/main/kotlin/com/exposures/model/RollStatus.kt"
-  "core-model/src/main/kotlin/com/exposures/model/StandardApertures.kt"
-  "core-model/src/main/kotlin/com/exposures/model/StandardIso.kt"
-  "core-model/src/main/kotlin/com/exposures/model/StopIncrement.kt"
-  "core-model/src/main/kotlin/com/exposures/model/SyncStatus.kt"
-  # ReferencePhoto.kt intentionally excluded: phone-only feature, no watch counterpart (see README "Non-goals").
-)
-
 declare -a database_candidate_files=(
   "core-database/src/main/kotlin/com/exposures/database/Converters.kt"
   "core-database/src/main/kotlin/com/exposures/database/mapper/Mappers.kt"
@@ -99,6 +67,41 @@ compare_file_group() {
   echo >> "${OUTPUT_PATH}"
 }
 
+# Post-Phase-4 (exp-shared-library-feasibility-plan.md): phone/watch no longer carry local
+# core-model/core-datalayer at all — this repo is the sole source, consumed via composite build.
+# There's nothing left to diff between two copies, so this is now a regression guard: fail loudly
+# if either app repo ever reintroduces a local copy (accidental revert, bad merge, etc.), since
+# that would silently reopen the exact drift this whole extraction existed to close.
+check_no_local_reintroduction() {
+  {
+    echo "## Local core-model/core-datalayer Reintroduction Guard"
+    echo
+    echo "| Repo | Module | Status |"
+    echo "|---|---|---|"
+  } >> "${OUTPUT_PATH}"
+
+  local reintroduced=0
+  for repo_dir in "${PHONE_DIR}" "${WATCH_DIR}"; do
+    local repo_name
+    repo_name="$(basename "${repo_dir}")"
+    for module in "core-model" "core-datalayer"; do
+      # Check for build.gradle.kts, not just the directory: a gitignored build/ output dir can
+      # outlive the deleted module (stale Gradle cache) without meaning source was reintroduced.
+      if [[ -f "${repo_dir}/${module}/build.gradle.kts" ]]; then
+        echo "| \`${repo_name}\` | \`${module}\` | **reintroduced — investigate** |" >> "${OUTPUT_PATH}"
+        reintroduced=1
+      else
+        echo "| \`${repo_name}\` | \`${module}\` | absent (expected) |" >> "${OUTPUT_PATH}"
+      fi
+    done
+  done
+  echo >> "${OUTPUT_PATH}"
+
+  if [[ "${reintroduced}" -eq 1 ]]; then
+    echo "WARNING: a local core-model/core-datalayer module was reintroduced in phone or watch — see report." >&2
+  fi
+}
+
 {
   echo "# Rebaseline Audit Report"
   echo
@@ -110,8 +113,7 @@ compare_file_group() {
   echo
 } > "${OUTPUT_PATH}"
 
-compare_file_group "Core Datalayer Contract Surface" "${core_datalayer_files[@]}"
-compare_file_group "Core Model High-Risk Surface" "${core_model_files[@]}"
+check_no_local_reintroduction
 compare_file_group "Database Common Candidates (Informational)" "${database_candidate_files[@]}"
 
 {

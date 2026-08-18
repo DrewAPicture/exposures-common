@@ -1,5 +1,7 @@
 # Rebaseline Audit Checklist
 
+**Post-Phase-4 note**: `phone`/`watch` no longer carry local `core-model`/`core-datalayer` at all (deleted once Phase 4 landed) — this repo is the sole source, consumed via composite build. Steps 3/6 below described the pre-Phase-4 world, where the script diffed two local copies to find drift before extraction; that comparison no longer applies; `rebaseline-audit.sh` now runs a reintroduction guard (fails loudly if either app repo ever gets a local `core-model`/`core-datalayer` back) plus the still-relevant Database Common Candidates comparison. Kept for historical reference and in case a similar phased extraction (e.g. Phase 6's `core-database` pieces) needs the same process again.
+
 Use this checklist whenever meaningful shared-surface changes land in `exposures-phone` and/or `exposures-watch` (for example after Phases 8/9).
 
 ## 1) Prepare
@@ -17,15 +19,7 @@ Use this checklist whenever meaningful shared-surface changes land in `exposures
 
 ## 3) Review results
 
-- Verify `core-datalayer` contract files parity:
-  - `DataLayerPaths.kt`
-  - `DataLayerJson.kt`
-  - `dto/Dtos.kt`
-  - `mapper/DtoMappers.kt`
-  - `DataLayerGateway.kt`
-  - `DataLayerClient.kt`
-- Verify `core-model` high-risk files parity:
-  - `CameraBody.kt`, `Lens.kt`, `FilmRoll.kt`, `Exposure.kt`, `ShutterSpeed.kt`, `Zone.kt`
+- Confirm the reintroduction guard shows `absent (expected)` for `core-model`/`core-datalayer` in both `phone` and `watch`. Anything else means a local copy came back — investigate before doing anything else (a bad merge/revert is the likely cause).
 - Review database-common candidates for extraction (non-blocking):
   - `Converters.kt`
   - `mapper/Mappers.kt`
@@ -48,6 +42,8 @@ Use this checklist whenever meaningful shared-surface changes land in `exposures
 - Record any required coordinated rollout steps for phone/watch.
 
 ## 6) Sign-off gate before consumer replacement
+
+Historical: this was the gate before Phase 4's `core-model`/`core-datalayer` deletion (already done). Reapply the same gate before any future phase that removes duplicated consumer-repo source (e.g. Phase 6's `core-database` pieces, if pursued):
 
 - Rebaseline report exists and is linked in the work item/PR.
 - Include/exclude decisions are explicit.
