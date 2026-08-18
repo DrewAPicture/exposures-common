@@ -17,23 +17,21 @@ This repo centralizes shared model and Data Layer contract/runtime code so phone
 
 ## Migration strategy
 
-1. Populate this repo with current shared files from both apps.
-2. Keep tests green in this repo first.
-3. Wire consumers (`phone`, `watch`) via composite build or published artifacts.
-4. Remove duplicated modules in app repos only after both integrations are validated.
+1. ~~Populate this repo with current shared files from both apps.~~ Done — `core-model` and `core-datalayer` are populated (Phase 2).
+2. ~~Keep tests green in this repo first.~~ Done — `./gradlew test` passes.
+3. Wire consumers (`phone`, `watch`) via composite build or published artifacts. (Phase 3+, not started.)
+4. Remove duplicated modules in app repos only after both integrations are validated. (Phase 4+, not started.)
 
 ## Compatibility policy
 
 See `docs/CONTRACT_COMPATIBILITY.md`.
 
-## Contract test scaffolding
+## Contract tests
 
-Initial scaffolding exists under:
+- `core-datalayer/src/test/kotlin/com/exposures/datalayer/contract/ContractPathsSnapshotTest.kt` — strict parity between a hand-maintained snapshot and `DataLayerPaths`' actual constants (values, uniqueness, and no undeclared/missing constants).
+- `core-datalayer/src/test/kotlin/com/exposures/datalayer/contract/ContractJsonCompatibilityTest.kt` — DTO/JSON compatibility: defaulted fields decode safely from payloads written before they existed, unknown fields from a newer writer don't break an older reader, and canonical DTOs round-trip through encode/decode.
 
-- `core-datalayer/src/test/kotlin/com/exposures/datalayer/contract/ContractPathsSnapshotTest.kt`
-- `core-datalayer/src/test/kotlin/com/exposures/datalayer/contract/ContractJsonCompatibilityScaffoldTest.kt`
-
-These start as snapshot/pending checks and are intended to become strict parity/fixture tests after shared Data Layer sources are fully migrated into this repo.
+Both were scaffolded as `@Ignore`d placeholders before shared Data Layer sources existed in this repo; now that `core-datalayer` is populated, they run for real on every `./gradlew test`.
 
 ## Rebaseline audit tooling
 
