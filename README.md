@@ -26,6 +26,10 @@ This repo centralizes shared model and Data Layer contract/runtime code so phone
 
 See `docs/CONTRACT_COMPATIBILITY.md`.
 
+## Changelog
+
+See `CHANGELOG.md` for the baseline snapshot of what's currently populated and (once consumers exist) a record of additive/breaking changes to the shared surface.
+
 ## Contract tests
 
 - `core-datalayer/src/test/kotlin/com/exposures/datalayer/contract/ContractPathsSnapshotTest.kt` — strict parity between a hand-maintained snapshot and `DataLayerPaths`' actual constants (values, uniqueness, and no undeclared/missing constants).
