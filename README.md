@@ -19,8 +19,8 @@ This repo centralizes shared model and Data Layer contract/runtime code so phone
 
 1. ~~Populate this repo with current shared files from both apps.~~ Done — `core-model` and `core-datalayer` are populated (Phase 2).
 2. ~~Keep tests green in this repo first.~~ Done — `./gradlew test` passes.
-3. Wire consumers (`phone`, `watch`) via composite build or published artifacts. (Phase 3+, not started.)
-4. Remove duplicated modules in app repos only after both integrations are validated. (Phase 4+, not started.)
+3. ~~Wire consumers (`phone`, `watch`) via composite build or published artifacts.~~ Done (Phase 3) — via composite build (`includeBuild` + dependency substitution). Not yet a published artifact; that's Phase 5.
+4. ~~Remove duplicated modules in app repos only after both integrations are validated.~~ Done (Phase 4) — both apps' local `core-model`/`core-datalayer` are deleted; each is now sourced exclusively from this repo.
 
 ## Compatibility policy
 
