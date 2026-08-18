@@ -1,8 +1,12 @@
 name: Setup Android build
 description: >
-  Checkout, JDK 17, and Gradle setup shared by exposures-common/exposures-phone/exposures-watch
-  CI and publish workflows. Consumers add their own repo-specific steps (permissions, env vars,
-  extra checks) after this — this only covers the identical bootstrapping part.
+  Checkout, JDK 17, and Gradle setup shared by exposures-phone/exposures-watch CI workflows.
+  Consumers add their own repo-specific steps (permissions, env vars, extra checks) after this —
+  this only covers the identical bootstrapping part. Not used by this repo's own workflows: a
+  composite action whose first step is `actions/checkout` can't be referenced by local path
+  (`uses: ./...`) from its own defining repo, since GitHub Actions needs the repo already checked
+  out to even find the action.yml — that only works for cross-repo consumers, which GitHub
+  fetches independently. exposures-common's own ci.yml/publish.yml keep the three steps inline.
 
 runs:
   using: composite
