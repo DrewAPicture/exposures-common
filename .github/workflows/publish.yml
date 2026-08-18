@@ -10,7 +10,7 @@ on:
       - "v*.*.*"
 
 permissions:
-  contents: read
+  contents: write
   packages: write
 
 jobs:
@@ -33,4 +33,11 @@ jobs:
         run: ./gradlew publish
         env:
           GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Uses the gh CLI preinstalled on GitHub-hosted runners rather than a third-party action —
+      # one less thing to pin/maintain for a single `gh release create` call.
+      - name: Create GitHub release
+        run: gh release create "${{ github.ref_name }}" --generate-notes
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
