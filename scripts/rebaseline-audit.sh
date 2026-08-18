@@ -44,6 +44,20 @@ declare -a core_model_files=(
   "core-model/src/main/kotlin/com/exposures/model/Exposure.kt"
   "core-model/src/main/kotlin/com/exposures/model/ShutterSpeed.kt"
   "core-model/src/main/kotlin/com/exposures/model/Zone.kt"
+  "core-model/src/main/kotlin/com/exposures/model/FilmBack.kt"
+  "core-model/src/main/kotlin/com/exposures/model/FilmBackType.kt"
+  "core-model/src/main/kotlin/com/exposures/model/FilmColorType.kt"
+  "core-model/src/main/kotlin/com/exposures/model/FilmFormat.kt"
+  "core-model/src/main/kotlin/com/exposures/model/FrameNumbering.kt"
+  "core-model/src/main/kotlin/com/exposures/model/LightMeter.kt"
+  "core-model/src/main/kotlin/com/exposures/model/LightMeterType.kt"
+  "core-model/src/main/kotlin/com/exposures/model/PhotoStatus.kt"
+  "core-model/src/main/kotlin/com/exposures/model/RollStatus.kt"
+  "core-model/src/main/kotlin/com/exposures/model/StandardApertures.kt"
+  "core-model/src/main/kotlin/com/exposures/model/StandardIso.kt"
+  "core-model/src/main/kotlin/com/exposures/model/StopIncrement.kt"
+  "core-model/src/main/kotlin/com/exposures/model/SyncStatus.kt"
+  # ReferencePhoto.kt intentionally excluded: phone-only feature, no watch counterpart (see README "Non-goals").
 )
 
 declare -a database_candidate_files=(
