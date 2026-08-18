@@ -18,3 +18,4 @@ rootProject.name = "exposures-common"
 
 include(":core-model")
 include(":core-datalayer")
+include(":core-database-common")
