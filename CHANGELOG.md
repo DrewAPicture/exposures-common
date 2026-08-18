@@ -1,8 +1,17 @@
 # Changelog
 
-All notable changes to `exposures-common`'s public surface (`core-model`, `core-datalayer`) are recorded here. Not yet published as a versioned artifact — see `README.md`'s migration strategy — so this currently tracks in-repo baselines rather than release tags.
+All notable changes to `exposures-common`'s public surface (`core-model`, `core-datalayer`) are recorded here.
 
-## [Unreleased] — 2026-08-17: Initial baseline
+## [0.1.1] — 2026-08-18: CI/publishing infrastructure
+
+No `core-model`/`core-datalayer` code changes — patch bump exists only to give `phone`/`watch`'s CI a real tagged commit to pin `setup-android-build` against (previously referenced an untagged commit SHA).
+
+- Published to GitHub Packages for the first time (`0.1.0` was tagged and published in this same session, but predates this CI work — see below).
+- Added `ci.yml` (test on push to `main`/PRs) and `publish.yml` (publish + create a GitHub release on `v*.*.*` tag push).
+- Added `.github/actions/setup-android-build`, a composite action bundling checkout/JDK 17/Gradle setup, consumed cross-repo by `phone`/`watch`'s own CI (not self-referenced here — see the action's own description for why).
+- All third-party Actions SHA-pinned with a `# vX.Y.Z` comment; `actions/checkout`/`actions/setup-java` specifically pinned to Node 24-native versions (v7.0.1/v5.7.0) to avoid the Node 20 deprecation warning both surfaced at v4.
+
+## [0.1.0] — 2026-08-17: Initial baseline
 
 First populated snapshot of `core-model` and `core-datalayer`, sourced from `exposures-watch` (Phase 0 rebaseline confirmed it as byte-identical to `exposures-phone` except two now-resolved should-converge drifts). See `docs/rebaseline/report-2026-08-17.md` for the full audit.
 
