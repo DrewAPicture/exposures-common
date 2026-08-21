@@ -184,6 +184,7 @@ fun Exposure.toDto() = ExposureDto(
     createdAt = createdAt,
     updatedAt = updatedAt,
     remoteId = remoteId,
+    isFavorite = isFavorite,
 )
 
 fun ExposureDto.toDomain(syncStatus: SyncStatus) = Exposure(
@@ -203,6 +204,7 @@ fun ExposureDto.toDomain(syncStatus: SyncStatus) = Exposure(
     updatedAt = updatedAt,
     syncStatus = syncStatus,
     remoteId = remoteId,
+    isFavorite = isFavorite,
 )
 
 fun Exposure.toPhotoStatusDto() = PhotoStatusDto(

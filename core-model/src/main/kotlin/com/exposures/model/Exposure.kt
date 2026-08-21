@@ -20,4 +20,5 @@ data class Exposure(
     val updatedAt: Long,
     val syncStatus: SyncStatus,
     val remoteId: String?,
+    val isFavorite: Boolean = false,
 )

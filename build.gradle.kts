@@ -9,5 +9,5 @@ plugins {
 // Bump this version and re-tag (triggers .github/workflows/publish.yml) for any new release.
 allprojects {
     group = "com.exposures.common"
-    version = "0.4.0"
+    version = "0.5.0"
 }

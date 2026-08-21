@@ -625,6 +625,12 @@
           "optional": true,
           "nullable": true,
           "type": "string"
+        },
+        {
+          "name": "isFavorite",
+          "optional": true,
+          "nullable": false,
+          "type": "boolean"
         }
       ]
     },

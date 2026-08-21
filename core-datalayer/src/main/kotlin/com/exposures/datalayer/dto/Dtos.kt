@@ -101,6 +101,7 @@ data class ExposureDto(
     val createdAt: Long,
     val updatedAt: Long,
     val remoteId: String? = null,
+    val isFavorite: Boolean = false,
 )
 
 @Serializable

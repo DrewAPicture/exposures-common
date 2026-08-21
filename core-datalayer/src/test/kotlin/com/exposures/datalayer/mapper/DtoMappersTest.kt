@@ -164,6 +164,33 @@ class DtoMappersTest {
     }
 
     @Test
+    fun `exposure isFavorite round-trips through its dto`() {
+        val original = Exposure(
+            id = "exp-1",
+            filmRollId = "roll-1",
+            frameNumber = 3,
+            lensId = "lens-1",
+            focalLengthMm = null,
+            shutterSpeed = ShutterSpeed.fraction(250),
+            aperture = 5.6,
+            isoUsed = 400,
+            zone = null,
+            notes = null,
+            capturedAt = 100L,
+            referencePhotoStatus = PhotoStatus.NONE,
+            createdAt = 1L,
+            updatedAt = 2L,
+            syncStatus = SyncStatus.PENDING_SYNC,
+            remoteId = null,
+            isFavorite = true,
+        )
+
+        val roundTripped = original.toDto().toDomain(syncStatus = SyncStatus.SYNCED)
+
+        assertEquals(original.copy(syncStatus = SyncStatus.SYNCED), roundTripped)
+    }
+
+    @Test
     fun `exposure with no zone round-trips through its dto`() {
         val original = Exposure(
             id = "exp-1",

@@ -107,6 +107,7 @@ class ContractJsonCompatibilityTest {
         assertNull(decoded.notes)
         assertNull(decoded.focalLengthMm)
         assertNull(decoded.remoteId)
+        assertEquals(false, decoded.isFavorite)
     }
 
     @Test
