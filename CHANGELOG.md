@@ -2,6 +2,19 @@
 
 All notable changes to `exposures-common`'s public surface (`core-model`, `core-datalayer`, `core-database-common`) are recorded here.
 
+## [0.4.0] — 2026-08-21: Lens focal length model (Prime + Zoom)
+
+Minor bump — new lens/exposure fields, additive.
+
+Adds the feature-backlog Item 001 data model — a lens is now typed `PRIME` (single fixed focal length) or `ZOOM` (a min/max mm range), and an exposure records the focal length actually used:
+
+- `core-model`: new `LensType` enum (`PRIME`, `ZOOM`). `Lens` gains `lensType` (defaults `PRIME`), `focalLengthMm`, `focalLengthMinMm`, `focalLengthMaxMm`, plus `availableFocalLengths()` (mirrors `availableApertures()` — a single value for PRIME, every whole mm in range for ZOOM). `Exposure` gains `focalLengthMm: Int?`.
+- `core-datalayer`: `LensDto`/`ExposureDto` gain the matching fields; `DtoMappers.kt` updated.
+- `core-database-common`: `LensEntity` gains the matching columns; `Converters` gains a `LensType` converter; `Mappers.kt` updated.
+- `docs/contracts/data-layer.json` regenerated.
+
+No back-compat handling — both apps are pre-launch, so there's no deployed "previous version" of these DTOs/entities to stay compatible with.
+
 ## [0.3.0] — 2026-08-20: create-exposure command pair (Google Assistant voice capture, Phase A)
 
 Minor bump — new command pair, purely additive, no changes to existing DTOs/paths.

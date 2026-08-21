@@ -6,6 +6,8 @@ data class Exposure(
     val filmRollId: String,
     val frameNumber: Int,
     val lensId: String,
+    /** The focal length actually used, mm. Required when the lens is a ZOOM; auto-populated from the lens for a PRIME. */
+    val focalLengthMm: Int?,
     val shutterSpeed: ShutterSpeed,
     val aperture: Double,
     val isoUsed: Int,

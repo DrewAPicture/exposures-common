@@ -4,6 +4,7 @@ import com.exposures.datalayer.DataLayerJson
 import com.exposures.datalayer.dto.CreateExposureCommand
 import com.exposures.datalayer.dto.ExposureDto
 import com.exposures.datalayer.dto.FilmRollDto
+import com.exposures.datalayer.dto.LensDto
 import com.exposures.datalayer.dto.ShutterSpeedDto
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -60,6 +61,29 @@ class ContractJsonCompatibilityTest {
     }
 
     @Test
+    fun `canonical zoom LensDto round-trips through encode and decode`() {
+        val original = LensDto(
+            id = "lens-1",
+            name = "24-70mm",
+            cameraBodyId = "body-1",
+            minAperture = 2.8,
+            maxAperture = 22.0,
+            stopIncrement = "THIRD_STOP",
+            referencePhotoZoomRatio = 1.5,
+            lensType = "ZOOM",
+            focalLengthMinMm = 24,
+            focalLengthMaxMm = 70,
+            createdAt = 0,
+            updatedAt = 0,
+            remoteId = null,
+        )
+
+        val decoded = DataLayerJson.decodeLenses(DataLayerJson.encodeLenses(listOf(original)))
+
+        assertEquals(listOf(original), decoded)
+    }
+
+    @Test
     fun `ExposureDto optional fields default to null when absent from an older payload`() {
         val legacyJson = """
             [{
@@ -81,6 +105,7 @@ class ContractJsonCompatibilityTest {
 
         assertNull(decoded.zone)
         assertNull(decoded.notes)
+        assertNull(decoded.focalLengthMm)
         assertNull(decoded.remoteId)
     }
 
@@ -149,6 +174,7 @@ class ContractJsonCompatibilityTest {
             isoUsed = 400,
             zone = 6,
             notes = "backlit",
+            focalLengthMm = 50,
             capturedAt = 1_000L,
             referencePhotoStatus = "UPLOADED",
             createdAt = 1_000L,

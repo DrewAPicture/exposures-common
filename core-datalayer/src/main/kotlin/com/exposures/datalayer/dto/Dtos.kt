@@ -32,6 +32,10 @@ data class LensDto(
     // Defaulted (added after the original schema): a writer built before this field existed
     // shouldn't hard-crash a newer reader over one missing zoom hint.
     val referencePhotoZoomRatio: Double = 1.0,
+    val lensType: String = "PRIME",
+    val focalLengthMm: Int? = null,
+    val focalLengthMinMm: Int? = null,
+    val focalLengthMaxMm: Int? = null,
     val createdAt: Long,
     val updatedAt: Long,
     val remoteId: String? = null,
@@ -91,6 +95,7 @@ data class ExposureDto(
     val isoUsed: Int,
     val zone: Int? = null,
     val notes: String? = null,
+    val focalLengthMm: Int? = null,
     val capturedAt: Long,
     val referencePhotoStatus: String,
     val createdAt: Long,

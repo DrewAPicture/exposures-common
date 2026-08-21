@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.exposures.model.FilmBackType
 import com.exposures.model.FilmColorType
 import com.exposures.model.FilmFormat
+import com.exposures.model.LensType
 import com.exposures.model.LightMeterType
 import com.exposures.model.PhotoStatus
 import com.exposures.model.RollStatus
@@ -66,6 +67,12 @@ class Converters {
 
     @TypeConverter
     fun toStopIncrement(value: String): StopIncrement = StopIncrement.valueOf(value)
+
+    @TypeConverter
+    fun fromLensType(value: LensType): String = value.name
+
+    @TypeConverter
+    fun toLensType(value: String): LensType = LensType.valueOf(value)
 
     @TypeConverter
     fun fromLightMeterType(value: LightMeterType): String = value.name

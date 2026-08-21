@@ -294,6 +294,30 @@
           "type": "number"
         },
         {
+          "name": "lensType",
+          "optional": true,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "focalLengthMm",
+          "optional": true,
+          "nullable": true,
+          "type": "integer"
+        },
+        {
+          "name": "focalLengthMinMm",
+          "optional": true,
+          "nullable": true,
+          "type": "integer"
+        },
+        {
+          "name": "focalLengthMaxMm",
+          "optional": true,
+          "nullable": true,
+          "type": "integer"
+        },
+        {
           "name": "createdAt",
           "optional": false,
           "nullable": false,
@@ -565,6 +589,12 @@
           "optional": true,
           "nullable": true,
           "type": "string"
+        },
+        {
+          "name": "focalLengthMm",
+          "optional": true,
+          "nullable": true,
+          "type": "integer"
         },
         {
           "name": "capturedAt",

@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.exposures.model.LensType
 import com.exposures.model.StopIncrement
 import com.exposures.model.SyncStatus
 
@@ -26,6 +27,10 @@ data class LensEntity(
     val maxAperture: Double,
     val stopIncrement: StopIncrement,
     val referencePhotoZoomRatio: Double,
+    val lensType: LensType,
+    val focalLengthMm: Int?,
+    val focalLengthMinMm: Int?,
+    val focalLengthMaxMm: Int?,
     val createdAt: Long,
     val updatedAt: Long,
     val syncStatus: SyncStatus,

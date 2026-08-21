@@ -3,6 +3,7 @@ package com.exposures.database
 import com.exposures.model.FilmBackType
 import com.exposures.model.FilmColorType
 import com.exposures.model.FilmFormat
+import com.exposures.model.LensType
 import com.exposures.model.LightMeterType
 import com.exposures.model.PhotoStatus
 import com.exposures.model.RollStatus
@@ -51,6 +52,7 @@ class ConvertersTest {
         FilmBackType.entries.forEach { assertEquals(it, converters.toFilmBackType(converters.fromFilmBackType(it))) }
         LightMeterType.entries.forEach { assertEquals(it, converters.toLightMeterType(converters.fromLightMeterType(it))) }
         FilmColorType.entries.forEach { assertEquals(it, converters.toFilmColorType(converters.fromFilmColorType(it))) }
+        LensType.entries.forEach { assertEquals(it, converters.toLensType(converters.fromLensType(it))) }
     }
 
     @Test

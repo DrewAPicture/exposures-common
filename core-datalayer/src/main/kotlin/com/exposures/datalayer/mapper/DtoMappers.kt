@@ -16,6 +16,7 @@ import com.exposures.model.FilmColorType
 import com.exposures.model.FilmFormat
 import com.exposures.model.FilmRoll
 import com.exposures.model.Lens
+import com.exposures.model.LensType
 import com.exposures.model.LightMeter
 import com.exposures.model.LightMeterType
 import com.exposures.model.PhotoStatus
@@ -61,6 +62,10 @@ fun Lens.toDto() = LensDto(
     maxAperture = maxAperture,
     stopIncrement = stopIncrement.name,
     referencePhotoZoomRatio = referencePhotoZoomRatio,
+    lensType = lensType.name,
+    focalLengthMm = focalLengthMm,
+    focalLengthMinMm = focalLengthMinMm,
+    focalLengthMaxMm = focalLengthMaxMm,
     createdAt = createdAt,
     updatedAt = updatedAt,
     remoteId = remoteId,
@@ -74,6 +79,10 @@ fun LensDto.toDomain(syncStatus: SyncStatus) = Lens(
     maxAperture = maxAperture,
     stopIncrement = StopIncrement.valueOf(stopIncrement),
     referencePhotoZoomRatio = referencePhotoZoomRatio,
+    lensType = LensType.valueOf(lensType),
+    focalLengthMm = focalLengthMm,
+    focalLengthMinMm = focalLengthMinMm,
+    focalLengthMaxMm = focalLengthMaxMm,
     createdAt = createdAt,
     updatedAt = updatedAt,
     syncStatus = syncStatus,
@@ -169,6 +178,7 @@ fun Exposure.toDto() = ExposureDto(
     isoUsed = isoUsed,
     zone = zone,
     notes = notes,
+    focalLengthMm = focalLengthMm,
     capturedAt = capturedAt,
     referencePhotoStatus = referencePhotoStatus.name,
     createdAt = createdAt,
@@ -186,6 +196,7 @@ fun ExposureDto.toDomain(syncStatus: SyncStatus) = Exposure(
     isoUsed = isoUsed,
     zone = zone,
     notes = notes,
+    focalLengthMm = focalLengthMm,
     capturedAt = capturedAt,
     referencePhotoStatus = PhotoStatus.valueOf(referencePhotoStatus),
     createdAt = createdAt,

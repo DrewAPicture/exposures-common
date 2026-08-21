@@ -151,4 +151,16 @@ class DataLayerJsonTest {
 
         assertEquals(1.0, decoded.single().referencePhotoZoomRatio, 0.0)
     }
+
+    @Test
+    fun `a zoom lens round-trips through json with its focal length range`() {
+        val lenses = listOf(
+            LensDto(
+                id = "lens-1", name = "24-70mm", minAperture = 2.8, maxAperture = 22.0, stopIncrement = "THIRD_STOP",
+                lensType = "ZOOM", focalLengthMinMm = 24, focalLengthMaxMm = 70,
+                createdAt = 0L, updatedAt = 0L,
+            ),
+        )
+        assertEquals(lenses, DataLayerJson.decodeLenses(DataLayerJson.encodeLenses(lenses)))
+    }
 }
