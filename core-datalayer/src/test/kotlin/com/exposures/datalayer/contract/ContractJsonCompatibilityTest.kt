@@ -1,6 +1,7 @@
 package com.exposures.datalayer.contract
 
 import com.exposures.datalayer.DataLayerJson
+import com.exposures.datalayer.dto.CreateExposureCommand
 import com.exposures.datalayer.dto.ExposureDto
 import com.exposures.datalayer.dto.FilmRollDto
 import com.exposures.datalayer.dto.ShutterSpeedDto
@@ -81,6 +82,39 @@ class ContractJsonCompatibilityTest {
         assertNull(decoded.zone)
         assertNull(decoded.notes)
         assertNull(decoded.remoteId)
+    }
+
+    @Test
+    fun `CreateExposureCommand optional fields default to null when absent from an older payload`() {
+        val legacyJson = """
+            {
+              "exposureId": "exp-1",
+              "shutterSpeed": {"kind": "FRACTION", "numerator": 1, "denominator": 125}
+            }
+        """.trimIndent()
+
+        val decoded = DataLayerJson.decodeCreateExposureCommand(legacyJson)
+
+        assertNull(decoded.lensId)
+        assertNull(decoded.aperture)
+        assertNull(decoded.isoUsed)
+        assertNull(decoded.notes)
+    }
+
+    @Test
+    fun `canonical CreateExposureCommand round-trips through encode and decode`() {
+        val original = CreateExposureCommand(
+            exposureId = "exp-1",
+            shutterSpeed = ShutterSpeedDto(kind = "FRACTION", numerator = 1, denominator = 125),
+            lensId = "lens-1",
+            aperture = 8.0,
+            isoUsed = 400,
+            notes = "backlit",
+        )
+
+        val decoded = DataLayerJson.decodeCreateExposureCommand(DataLayerJson.encodeCreateExposureCommand(original))
+
+        assertEquals(original, decoded)
     }
 
     @Test

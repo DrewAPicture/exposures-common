@@ -72,6 +72,26 @@
       "reader": "phone",
       "notes": "empty payload"
     },
+    "CREATE_EXPOSURE_ACK_COMMAND": {
+      "value": "/command/create-exposure-ack",
+      "kind": "command",
+      "writer": "watch",
+      "reader": "phone",
+      "payload": {
+        "$ref": "CreateExposureAckCommand",
+        "cardinality": "object"
+      }
+    },
+    "CREATE_EXPOSURE_COMMAND": {
+      "value": "/command/create-exposure",
+      "kind": "command",
+      "writer": "phone",
+      "reader": "watch",
+      "payload": {
+        "$ref": "CreateExposureCommand",
+        "cardinality": "object"
+      }
+    },
     "EXPOSURES": {
       "value": "/exposures",
       "kind": "dataItem",
@@ -652,6 +672,72 @@
           "name": "rollId",
           "optional": false,
           "nullable": false,
+          "type": "string"
+        }
+      ]
+    },
+    "CreateExposureCommand": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.CreateExposureCommand",
+      "fields": [
+        {
+          "name": "exposureId",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "shutterSpeed",
+          "optional": false,
+          "nullable": false,
+          "$ref": "ShutterSpeedDto"
+        },
+        {
+          "name": "lensId",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "name": "aperture",
+          "optional": true,
+          "nullable": true,
+          "type": "number"
+        },
+        {
+          "name": "isoUsed",
+          "optional": true,
+          "nullable": true,
+          "type": "integer"
+        },
+        {
+          "name": "notes",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        }
+      ]
+    },
+    "CreateExposureAckCommand": {
+      "type": "object",
+      "serialName": "com.exposures.datalayer.dto.CreateExposureAckCommand",
+      "fields": [
+        {
+          "name": "exposureId",
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "name": "accepted",
+          "optional": false,
+          "nullable": false,
+          "type": "boolean"
+        },
+        {
+          "name": "reason",
+          "optional": true,
+          "nullable": true,
           "type": "string"
         }
       ]

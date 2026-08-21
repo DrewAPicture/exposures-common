@@ -29,6 +29,8 @@ class ContractPathsSnapshotTest {
         "REQUEST_ROLLS_SYNC_COMMAND" to "/command/request-rolls-sync",
         "CONNECTIVITY_PING_COMMAND" to "/command/connectivity-ping",
         "CONNECTIVITY_PING_ACK_COMMAND" to "/command/connectivity-ping-ack",
+        "CREATE_EXPOSURE_COMMAND" to "/command/create-exposure",
+        "CREATE_EXPOSURE_ACK_COMMAND" to "/command/create-exposure-ack",
         "CAPABILITY_EXPOSURES_APP" to "exposures_app",
         "KEY_PAYLOAD" to "payload",
     )
@@ -67,6 +69,8 @@ class ContractPathsSnapshotTest {
             "REQUEST_ROLLS_SYNC_COMMAND" to DataLayerPaths.REQUEST_ROLLS_SYNC_COMMAND,
             "CONNECTIVITY_PING_COMMAND" to DataLayerPaths.CONNECTIVITY_PING_COMMAND,
             "CONNECTIVITY_PING_ACK_COMMAND" to DataLayerPaths.CONNECTIVITY_PING_ACK_COMMAND,
+            "CREATE_EXPOSURE_COMMAND" to DataLayerPaths.CREATE_EXPOSURE_COMMAND,
+            "CREATE_EXPOSURE_ACK_COMMAND" to DataLayerPaths.CREATE_EXPOSURE_ACK_COMMAND,
             "CAPABILITY_EXPOSURES_APP" to DataLayerPaths.CAPABILITY_EXPOSURES_APP,
             "KEY_PAYLOAD" to DataLayerPaths.KEY_PAYLOAD,
         )

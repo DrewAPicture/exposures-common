@@ -4,6 +4,8 @@ import com.exposures.datalayer.dto.CameraBodyDto
 import com.exposures.datalayer.dto.CapturePhotoCommand
 import com.exposures.datalayer.dto.CaptureResultCommand
 import com.exposures.datalayer.dto.CompleteRollCommand
+import com.exposures.datalayer.dto.CreateExposureAckCommand
+import com.exposures.datalayer.dto.CreateExposureCommand
 import com.exposures.datalayer.dto.ExposureDto
 import com.exposures.datalayer.dto.FilmBackDto
 import com.exposures.datalayer.dto.FilmRollDto
@@ -46,4 +48,10 @@ object DataLayerJson {
 
     fun encodeCompleteRollCommand(value: CompleteRollCommand): String = instance.encodeToString(value)
     fun decodeCompleteRollCommand(json: String): CompleteRollCommand = instance.decodeFromString(json)
+
+    fun encodeCreateExposureCommand(value: CreateExposureCommand): String = instance.encodeToString(value)
+    fun decodeCreateExposureCommand(json: String): CreateExposureCommand = instance.decodeFromString(json)
+
+    fun encodeCreateExposureAckCommand(value: CreateExposureAckCommand): String = instance.encodeToString(value)
+    fun decodeCreateExposureAckCommand(json: String): CreateExposureAckCommand = instance.decodeFromString(json)
 }

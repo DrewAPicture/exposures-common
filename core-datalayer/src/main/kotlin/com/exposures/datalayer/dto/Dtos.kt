@@ -122,3 +122,20 @@ data class CaptureResultCommand(
 data class CompleteRollCommand(
     val rollId: String,
 )
+
+@Serializable
+data class CreateExposureCommand(
+    val exposureId: String, // phone-generated UUID; also the idempotency key
+    val shutterSpeed: ShutterSpeedDto,
+    val lensId: String? = null,
+    val aperture: Double? = null,
+    val isoUsed: Int? = null,
+    val notes: String? = null,
+)
+
+@Serializable
+data class CreateExposureAckCommand(
+    val exposureId: String,
+    val accepted: Boolean,
+    val reason: String? = null,
+)

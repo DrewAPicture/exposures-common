@@ -2,6 +2,21 @@
 
 All notable changes to `exposures-common`'s public surface (`core-model`, `core-datalayer`, `core-database-common`) are recorded here.
 
+## [0.3.0] — 2026-08-20: create-exposure command pair (Google Assistant voice capture, Phase A)
+
+Minor bump — new command pair, purely additive, no changes to existing DTOs/paths.
+
+Adds the `CreateExposureCommand`/`CreateExposureAckCommand` pair backing the phone-originated, watch-authoritative voice-capture flow (see `exp--google-assistant-capture-plan.md`):
+
+- `dto/Dtos.kt`: `CreateExposureCommand` (`exposureId`, `shutterSpeed`, optional `lensId`/`aperture`/`isoUsed`/`notes`) and `CreateExposureAckCommand` (`exposureId`, `accepted`, optional `reason`).
+- `DataLayerPaths`: `CREATE_EXPOSURE_COMMAND = "/command/create-exposure"` (phone -> watch) and `CREATE_EXPOSURE_ACK_COMMAND = "/command/create-exposure-ack"` (watch -> phone).
+- `DataLayerJson`: matching `encode/decodeCreateExposureCommand` and `encode/decodeCreateExposureAckCommand`.
+- `docs/contracts/data-layer.json` regenerated to include both new paths and schemas.
+
+### Compatibility notes
+
+Purely additive — two new command paths and two new DTOs, no existing field/path changes. `exposureId` doubles as the client-generated idempotency key on the watch receiver (Phase B).
+
 ## [0.2.0] — 2026-08-18: core-database-common (Phase 6)
 
 Minor bump — new module, purely additive, no changes to `core-model`/`core-datalayer`.

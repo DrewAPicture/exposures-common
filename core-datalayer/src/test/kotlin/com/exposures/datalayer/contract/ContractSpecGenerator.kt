@@ -5,6 +5,8 @@ import com.exposures.datalayer.dto.CameraBodyDto
 import com.exposures.datalayer.dto.CapturePhotoCommand
 import com.exposures.datalayer.dto.CaptureResultCommand
 import com.exposures.datalayer.dto.CompleteRollCommand
+import com.exposures.datalayer.dto.CreateExposureAckCommand
+import com.exposures.datalayer.dto.CreateExposureCommand
 import com.exposures.datalayer.dto.ExposureDto
 import com.exposures.datalayer.dto.FilmBackDto
 import com.exposures.datalayer.dto.FilmRollDto
@@ -93,6 +95,20 @@ object ContractSpecGenerator {
             reader = "watch",
             notes = "empty payload",
         ),
+        "CREATE_EXPOSURE_COMMAND" to PathMeta(
+            kind = "command",
+            writer = "phone",
+            reader = "watch",
+            payloadSchema = "CreateExposureCommand",
+            payloadCardinality = "object",
+        ),
+        "CREATE_EXPOSURE_ACK_COMMAND" to PathMeta(
+            kind = "command",
+            writer = "watch",
+            reader = "phone",
+            payloadSchema = "CreateExposureAckCommand",
+            payloadCardinality = "object",
+        ),
         "CAPABILITY_EXPOSURES_APP" to PathMeta(
             kind = "capability",
             notes = "both apps advertise this so each side can find the other's connected node",
@@ -116,6 +132,8 @@ object ContractSpecGenerator {
         serializer<CapturePhotoCommand>(),
         serializer<CaptureResultCommand>(),
         serializer<CompleteRollCommand>(),
+        serializer<CreateExposureCommand>(),
+        serializer<CreateExposureAckCommand>(),
     )
 
     fun render(): String {

@@ -3,6 +3,8 @@ package com.exposures.datalayer
 import com.exposures.datalayer.dto.CameraBodyDto
 import com.exposures.datalayer.dto.CapturePhotoCommand
 import com.exposures.datalayer.dto.CaptureResultCommand
+import com.exposures.datalayer.dto.CreateExposureAckCommand
+import com.exposures.datalayer.dto.CreateExposureCommand
 import com.exposures.datalayer.dto.ExposureDto
 import com.exposures.datalayer.dto.FilmBackDto
 import com.exposures.datalayer.dto.FilmRollDto
@@ -90,6 +92,37 @@ class DataLayerJsonTest {
     fun `capture-result command round-trips through json`() {
         val command = CaptureResultCommand(exposureId = "exp-1", status = "CAPTURED")
         assertEquals(command, DataLayerJson.decodeCaptureResultCommand(DataLayerJson.encodeCaptureResultCommand(command)))
+    }
+
+    @Test
+    fun `create-exposure command round-trips through json with all fields set`() {
+        val command = CreateExposureCommand(
+            exposureId = "exp-1",
+            shutterSpeed = ShutterSpeedDto("FRACTION", 1, 125),
+            lensId = "lens-1",
+            aperture = 8.0,
+            isoUsed = 400,
+            notes = "backlit",
+        )
+        assertEquals(command, DataLayerJson.decodeCreateExposureCommand(DataLayerJson.encodeCreateExposureCommand(command)))
+    }
+
+    @Test
+    fun `create-exposure command round-trips through json with only required fields set`() {
+        val command = CreateExposureCommand(exposureId = "exp-1", shutterSpeed = ShutterSpeedDto("BULB", 1, 1))
+        assertEquals(command, DataLayerJson.decodeCreateExposureCommand(DataLayerJson.encodeCreateExposureCommand(command)))
+    }
+
+    @Test
+    fun `create-exposure ack command round-trips through json when accepted`() {
+        val ack = CreateExposureAckCommand(exposureId = "exp-1", accepted = true)
+        assertEquals(ack, DataLayerJson.decodeCreateExposureAckCommand(DataLayerJson.encodeCreateExposureAckCommand(ack)))
+    }
+
+    @Test
+    fun `create-exposure ack command round-trips through json when rejected with a reason`() {
+        val ack = CreateExposureAckCommand(exposureId = "exp-1", accepted = false, reason = "No active roll selected on watch.")
+        assertEquals(ack, DataLayerJson.decodeCreateExposureAckCommand(DataLayerJson.encodeCreateExposureAckCommand(ack)))
     }
 
     @Test

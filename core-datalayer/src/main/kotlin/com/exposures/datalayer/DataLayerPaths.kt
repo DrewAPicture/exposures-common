@@ -25,6 +25,8 @@ object DataLayerPaths {
     const val REQUEST_ROLLS_SYNC_COMMAND = "/command/request-rolls-sync" // watch -> phone (MessageClient)
     const val CONNECTIVITY_PING_COMMAND = "/command/connectivity-ping" // watch -> phone (MessageClient)
     const val CONNECTIVITY_PING_ACK_COMMAND = "/command/connectivity-ping-ack" // phone -> watch (MessageClient)
+    const val CREATE_EXPOSURE_COMMAND = "/command/create-exposure" // phone -> watch (MessageClient)
+    const val CREATE_EXPOSURE_ACK_COMMAND = "/command/create-exposure-ack" // watch -> phone (MessageClient)
 
     /** Capability both apps advertise so each side can find the other's connected node. */
     const val CAPABILITY_EXPOSURES_APP = "exposures_app"
