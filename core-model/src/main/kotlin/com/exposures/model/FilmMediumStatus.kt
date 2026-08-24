@@ -1,6 +1,6 @@
 package com.exposures.model
 
-enum class RollStatus {
+enum class FilmMediumStatus {
     AVAILABLE,
     COMPLETED,
     ARCHIVED,

@@ -2,12 +2,12 @@ package com.exposures.datalayer
 
 import com.exposures.datalayer.dto.CameraBodyDto
 import com.exposures.datalayer.dto.CaptureResultCommand
-import com.exposures.datalayer.dto.CompleteRollCommand
+import com.exposures.datalayer.dto.CompleteFilmMediumCommand
 import com.exposures.datalayer.dto.CreateExposureAckCommand
 import com.exposures.datalayer.dto.CreateExposureCommand
 import com.exposures.datalayer.dto.ExposureDto
 import com.exposures.datalayer.dto.FilmBackDto
-import com.exposures.datalayer.dto.FilmRollDto
+import com.exposures.datalayer.dto.FilmMediumDto
 import com.exposures.datalayer.dto.LensDto
 import com.exposures.datalayer.dto.LightMeterDto
 import com.exposures.datalayer.dto.PhotoStatusDto
@@ -30,8 +30,8 @@ object DataLayerJson {
     fun encodeFilmBacks(value: List<FilmBackDto>): String = instance.encodeToString(value)
     fun decodeFilmBacks(json: String): List<FilmBackDto> = instance.decodeFromString(json)
 
-    fun encodeRolls(value: List<FilmRollDto>): String = instance.encodeToString(value)
-    fun decodeRolls(json: String): List<FilmRollDto> = instance.decodeFromString(json)
+    fun encodeFilmMedia(value: List<FilmMediumDto>): String = instance.encodeToString(value)
+    fun decodeFilmMedia(json: String): List<FilmMediumDto> = instance.decodeFromString(json)
 
     fun encodeExposures(value: List<ExposureDto>): String = instance.encodeToString(value)
     fun decodeExposures(json: String): List<ExposureDto> = instance.decodeFromString(json)
@@ -42,8 +42,8 @@ object DataLayerJson {
     fun encodeCaptureResultCommand(value: CaptureResultCommand): String = instance.encodeToString(value)
     fun decodeCaptureResultCommand(json: String): CaptureResultCommand = instance.decodeFromString(json)
 
-    fun encodeCompleteRollCommand(value: CompleteRollCommand): String = instance.encodeToString(value)
-    fun decodeCompleteRollCommand(json: String): CompleteRollCommand = instance.decodeFromString(json)
+    fun encodeCompleteFilmMediumCommand(value: CompleteFilmMediumCommand): String = instance.encodeToString(value)
+    fun decodeCompleteFilmMediumCommand(json: String): CompleteFilmMediumCommand = instance.decodeFromString(json)
 
     fun encodeCreateExposureCommand(value: CreateExposureCommand): String = instance.encodeToString(value)
     fun decodeCreateExposureCommand(json: String): CreateExposureCommand = instance.decodeFromString(json)

@@ -6,7 +6,7 @@ import com.exposures.datalayer.dto.CreateExposureAckCommand
 import com.exposures.datalayer.dto.CreateExposureCommand
 import com.exposures.datalayer.dto.ExposureDto
 import com.exposures.datalayer.dto.FilmBackDto
-import com.exposures.datalayer.dto.FilmRollDto
+import com.exposures.datalayer.dto.FilmMediumDto
 import com.exposures.datalayer.dto.LensDto
 import com.exposures.datalayer.dto.PhotoStatusDto
 import com.exposures.datalayer.dto.ShutterSpeedDto
@@ -51,23 +51,23 @@ class DataLayerJsonTest {
     }
 
     @Test
-    fun `rolls round-trip through json`() {
-        val rolls = listOf(
-            FilmRollDto(
-                id = "roll-1", name = "Portra 400", filmStock = "Kodak Portra 400", boxSpeedIso = 400,
+    fun `film media round-trip through json`() {
+        val media = listOf(
+            FilmMediumDto(
+                id = "medium-1", name = "Portra 400", filmStock = "Kodak Portra 400", boxSpeedIso = 400,
                 format = "MEDIUM_FORMAT_120", colorType = "COLOR", cameraBodyId = "body-1", filmBackId = "back-1",
-                targetFrameCount = 10, status = "AVAILABLE",
+                type = "ROLL", targetFrameCount = 10, status = "AVAILABLE",
                 createdAt = 0L, updatedAt = 0L,
             ),
         )
-        assertEquals(rolls, DataLayerJson.decodeRolls(DataLayerJson.encodeRolls(rolls)))
+        assertEquals(media, DataLayerJson.decodeFilmMedia(DataLayerJson.encodeFilmMedia(media)))
     }
 
     @Test
     fun `exposures round-trip through json`() {
         val exposures = listOf(
             ExposureDto(
-                id = "exp-1", filmRollId = "roll-1", frameNumber = 1, lensId = "lens-1",
+                id = "exp-1", filmMediumId = "medium-1", frameNumber = 1, lensId = "lens-1",
                 shutterSpeed = ShutterSpeedDto("FRACTION", 1, 125), aperture = 8.0, isoUsed = 400,
                 notes = "test note", capturedAt = 0L, referencePhotoStatus = "NONE", createdAt = 0L, updatedAt = 0L,
             ),
@@ -114,7 +114,7 @@ class DataLayerJsonTest {
 
     @Test
     fun `create-exposure ack command round-trips through json when rejected with a reason`() {
-        val ack = CreateExposureAckCommand(exposureId = "exp-1", accepted = false, reason = "No active roll selected on watch.")
+        val ack = CreateExposureAckCommand(exposureId = "exp-1", accepted = false, reason = "No active film selected on watch.")
         assertEquals(ack, DataLayerJson.decodeCreateExposureAckCommand(DataLayerJson.encodeCreateExposureAckCommand(ack)))
     }
 
@@ -128,10 +128,10 @@ class DataLayerJsonTest {
     }
 
     @Test
-    fun `a roll payload from a writer built before colorType existed still decodes`() {
-        val json = """[{"id":"roll-1","name":"Portra 400","filmStock":"Kodak Portra 400","boxSpeedIso":400,"format":"MEDIUM_FORMAT_120","cameraBodyId":"body-1","filmBackId":"back-1","targetFrameCount":10,"status":"AVAILABLE","createdAt":0,"updatedAt":0}]"""
+    fun `a film medium payload omitting colorType still decodes, defaulting to COLOR`() {
+        val json = """[{"id":"medium-1","name":"Portra 400","filmStock":"Kodak Portra 400","boxSpeedIso":400,"format":"MEDIUM_FORMAT_120","cameraBodyId":"body-1","filmBackId":"back-1","type":"ROLL","targetFrameCount":10,"status":"AVAILABLE","createdAt":0,"updatedAt":0}]"""
 
-        val decoded = DataLayerJson.decodeRolls(json)
+        val decoded = DataLayerJson.decodeFilmMedia(json)
 
         assertEquals("COLOR", decoded.single().colorType)
     }

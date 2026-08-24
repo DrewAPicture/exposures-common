@@ -4,10 +4,11 @@ import androidx.room.TypeConverter
 import com.exposures.model.FilmBackType
 import com.exposures.model.FilmColorType
 import com.exposures.model.FilmFormat
+import com.exposures.model.FilmMediumStatus
+import com.exposures.model.FilmMediumType
 import com.exposures.model.LensType
 import com.exposures.model.LightMeterType
 import com.exposures.model.PhotoStatus
-import com.exposures.model.RollStatus
 import com.exposures.model.ShutterSpeed
 import com.exposures.model.ShutterSpeedKind
 import com.exposures.model.StopIncrement
@@ -39,10 +40,16 @@ class Converters {
     fun toSyncStatus(value: String): SyncStatus = SyncStatus.valueOf(value)
 
     @TypeConverter
-    fun fromRollStatus(value: RollStatus): String = value.name
+    fun fromFilmMediumStatus(value: FilmMediumStatus): String = value.name
 
     @TypeConverter
-    fun toRollStatus(value: String): RollStatus = RollStatus.valueOf(value)
+    fun toFilmMediumStatus(value: String): FilmMediumStatus = FilmMediumStatus.valueOf(value)
+
+    @TypeConverter
+    fun fromFilmMediumType(value: FilmMediumType): String = value.name
+
+    @TypeConverter
+    fun toFilmMediumType(value: String): FilmMediumType = FilmMediumType.valueOf(value)
 
     @TypeConverter
     fun fromPhotoStatus(value: PhotoStatus): String = value.name

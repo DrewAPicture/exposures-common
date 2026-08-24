@@ -9,7 +9,7 @@ class FrameNumberingTest {
 
     private fun exposure(frameNumber: Int) = Exposure(
         id = "exp-$frameNumber",
-        filmRollId = "roll-1",
+        filmMediumId = "medium-1",
         frameNumber = frameNumber,
         lensId = "lens-1",
         focalLengthMm = null,
@@ -26,9 +26,9 @@ class FrameNumberingTest {
         remoteId = null,
     )
 
-    private fun roll(targetFrameCount: Int) = FilmRoll(
-        id = "roll-1",
-        name = "Test roll",
+    private fun filmMedium(targetFrameCount: Int) = FilmMedium(
+        id = "medium-1",
+        name = "Test film",
         filmStock = "Kodak Portra 400",
         boxSpeedIso = 400,
         format = FilmFormat.MEDIUM_FORMAT_120,
@@ -36,8 +36,9 @@ class FrameNumberingTest {
         cameraBodyId = "body-1",
         lightMeterId = null,
         filmBackId = "back-1",
+        type = FilmMediumType.ROLL,
         targetFrameCount = targetFrameCount,
-        status = RollStatus.AVAILABLE,
+        status = FilmMediumStatus.AVAILABLE,
         createdAt = 0L,
         updatedAt = 0L,
         syncStatus = SyncStatus.PENDING_SYNC,
@@ -45,7 +46,7 @@ class FrameNumberingTest {
     )
 
     @Test
-    fun `next frame number for an empty roll is 1`() {
+    fun `next frame number for an empty film medium is 1`() {
         assertEquals(1, emptyList<Exposure>().nextFrameNumber())
     }
 
@@ -62,12 +63,12 @@ class FrameNumberingTest {
     }
 
     @Test
-    fun `roll is not complete before reaching its target frame count`() {
-        assertFalse(roll(targetFrameCount = 10).isComplete(exposureCount = 9))
+    fun `film medium is not complete before reaching its target frame count`() {
+        assertFalse(filmMedium(targetFrameCount = 10).isComplete(exposureCount = 9))
     }
 
     @Test
-    fun `roll is complete once exposure count reaches the target`() {
-        assertTrue(roll(targetFrameCount = 10).isComplete(exposureCount = 10))
+    fun `film medium is complete once exposure count reaches the target`() {
+        assertTrue(filmMedium(targetFrameCount = 10).isComplete(exposureCount = 10))
     }
 }

@@ -3,12 +3,12 @@ package com.exposures.datalayer.contract
 import com.exposures.datalayer.DataLayerPaths
 import com.exposures.datalayer.dto.CameraBodyDto
 import com.exposures.datalayer.dto.CaptureResultCommand
-import com.exposures.datalayer.dto.CompleteRollCommand
+import com.exposures.datalayer.dto.CompleteFilmMediumCommand
 import com.exposures.datalayer.dto.CreateExposureAckCommand
 import com.exposures.datalayer.dto.CreateExposureCommand
 import com.exposures.datalayer.dto.ExposureDto
 import com.exposures.datalayer.dto.FilmBackDto
-import com.exposures.datalayer.dto.FilmRollDto
+import com.exposures.datalayer.dto.FilmMediumDto
 import com.exposures.datalayer.dto.LensDto
 import com.exposures.datalayer.dto.LightMeterDto
 import com.exposures.datalayer.dto.PhotoStatusDto
@@ -52,7 +52,7 @@ object ContractSpecGenerator {
         "LENSES" to PathMeta("dataItem", "phone", "watch", "LensDto", "array"),
         "LIGHT_METERS" to PathMeta("dataItem", "phone", "watch", "LightMeterDto", "array"),
         "FILM_BACKS" to PathMeta("dataItem", "phone", "watch", "FilmBackDto", "array"),
-        "ROLLS" to PathMeta("dataItem", "phone", "watch", "FilmRollDto", "array"),
+        "FILM_MEDIA" to PathMeta("dataItem", "phone", "watch", "FilmMediumDto", "array"),
         "EXPOSURES" to PathMeta("dataItem", "watch", "phone", "ExposureDto", "array"),
         "PHOTO_STATUSES" to PathMeta("dataItem", "phone", "watch", "PhotoStatusDto", "array"),
         "CAPTURE_RESULT_COMMAND" to PathMeta(
@@ -62,18 +62,18 @@ object ContractSpecGenerator {
             payloadSchema = "CaptureResultCommand",
             payloadCardinality = "object",
         ),
-        "COMPLETE_ROLL_COMMAND" to PathMeta(
+        "COMPLETE_FILM_MEDIUM_COMMAND" to PathMeta(
             kind = "command",
             writer = "watch",
             reader = "phone",
-            payloadSchema = "CompleteRollCommand",
+            payloadSchema = "CompleteFilmMediumCommand",
             payloadCardinality = "object",
         ),
-        "REQUEST_ROLLS_SYNC_COMMAND" to PathMeta(
+        "REQUEST_FILM_MEDIA_SYNC_COMMAND" to PathMeta(
             kind = "command",
             writer = "watch",
             reader = "phone",
-            notes = "empty payload; phone responds by pushing current equipment/roll DataItems",
+            notes = "empty payload; phone responds by pushing current equipment/film media DataItems",
         ),
         "CONNECTIVITY_PING_COMMAND" to PathMeta(
             kind = "command",
@@ -118,11 +118,11 @@ object ContractSpecGenerator {
         serializer<LensDto>(),
         serializer<LightMeterDto>(),
         serializer<FilmBackDto>(),
-        serializer<FilmRollDto>(),
+        serializer<FilmMediumDto>(),
         serializer<ExposureDto>(),
         serializer<PhotoStatusDto>(),
         serializer<CaptureResultCommand>(),
-        serializer<CompleteRollCommand>(),
+        serializer<CompleteFilmMediumCommand>(),
         serializer<CreateExposureCommand>(),
         serializer<CreateExposureAckCommand>(),
     )

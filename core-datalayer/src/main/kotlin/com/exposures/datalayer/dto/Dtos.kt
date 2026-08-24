@@ -65,7 +65,7 @@ data class FilmBackDto(
 )
 
 @Serializable
-data class FilmRollDto(
+data class FilmMediumDto(
     val id: String,
     val name: String,
     val filmStock: String,
@@ -76,7 +76,9 @@ data class FilmRollDto(
     val colorType: String = "COLOR",
     val cameraBodyId: String,
     val lightMeterId: String? = null,
-    val filmBackId: String,
+    /** Required for a ROLL-type medium; absent for SHEET. */
+    val filmBackId: String? = null,
+    val type: String,
     val targetFrameCount: Int,
     val status: String,
     val createdAt: Long,
@@ -87,7 +89,7 @@ data class FilmRollDto(
 @Serializable
 data class ExposureDto(
     val id: String,
-    val filmRollId: String,
+    val filmMediumId: String,
     val frameNumber: Int,
     val lensId: String,
     val shutterSpeed: ShutterSpeedDto,
@@ -118,8 +120,8 @@ data class CaptureResultCommand(
 )
 
 @Serializable
-data class CompleteRollCommand(
-    val rollId: String,
+data class CompleteFilmMediumCommand(
+    val filmMediumId: String,
 )
 
 @Serializable

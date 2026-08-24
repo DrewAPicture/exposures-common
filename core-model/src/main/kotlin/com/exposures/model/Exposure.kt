@@ -1,9 +1,9 @@
 package com.exposures.model
 
-/** Watch-authoritative: exposures are recorded on the watch against the currently active roll. */
+/** Watch-authoritative: exposures are recorded on the watch against the currently active film medium. */
 data class Exposure(
     val id: String,
-    val filmRollId: String,
+    val filmMediumId: String,
     val frameNumber: Int,
     val lensId: String,
     /** The focal length actually used, mm. Required when the lens is a ZOOM; auto-populated from the lens for a PRIME. */
@@ -11,7 +11,7 @@ data class Exposure(
     val shutterSpeed: ShutterSpeed,
     val aperture: Double,
     val isoUsed: Int,
-    /** 0..10 (Zone 0..X); required when the roll's light meter is [LightMeterType.SPOT], else null. */
+    /** 0..10 (Zone 0..X); required when the film medium's light meter is [LightMeterType.SPOT], else null. */
     val zone: Int?,
     val notes: String?,
     val capturedAt: Long,

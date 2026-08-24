@@ -3,10 +3,11 @@ package com.exposures.database
 import com.exposures.model.FilmBackType
 import com.exposures.model.FilmColorType
 import com.exposures.model.FilmFormat
+import com.exposures.model.FilmMediumStatus
+import com.exposures.model.FilmMediumType
 import com.exposures.model.LensType
 import com.exposures.model.LightMeterType
 import com.exposures.model.PhotoStatus
-import com.exposures.model.RollStatus
 import com.exposures.model.ShutterSpeed
 import com.exposures.model.StopIncrement
 import com.exposures.model.SyncStatus
@@ -45,7 +46,8 @@ class ConvertersTest {
     @Test
     fun `enum converters round-trip every declared value`() {
         SyncStatus.entries.forEach { assertEquals(it, converters.toSyncStatus(converters.fromSyncStatus(it))) }
-        RollStatus.entries.forEach { assertEquals(it, converters.toRollStatus(converters.fromRollStatus(it))) }
+        FilmMediumStatus.entries.forEach { assertEquals(it, converters.toFilmMediumStatus(converters.fromFilmMediumStatus(it))) }
+        FilmMediumType.entries.forEach { assertEquals(it, converters.toFilmMediumType(converters.fromFilmMediumType(it))) }
         PhotoStatus.entries.forEach { assertEquals(it, converters.toPhotoStatus(converters.fromPhotoStatus(it))) }
         FilmFormat.entries.forEach { assertEquals(it, converters.toFilmFormat(converters.fromFilmFormat(it))) }
         StopIncrement.entries.forEach { assertEquals(it, converters.toStopIncrement(converters.fromStopIncrement(it))) }

@@ -3,7 +3,7 @@ package com.exposures.datalayer.mapper
 import com.exposures.datalayer.dto.CameraBodyDto
 import com.exposures.datalayer.dto.ExposureDto
 import com.exposures.datalayer.dto.FilmBackDto
-import com.exposures.datalayer.dto.FilmRollDto
+import com.exposures.datalayer.dto.FilmMediumDto
 import com.exposures.datalayer.dto.LensDto
 import com.exposures.datalayer.dto.LightMeterDto
 import com.exposures.datalayer.dto.PhotoStatusDto
@@ -14,13 +14,14 @@ import com.exposures.model.FilmBack
 import com.exposures.model.FilmBackType
 import com.exposures.model.FilmColorType
 import com.exposures.model.FilmFormat
-import com.exposures.model.FilmRoll
+import com.exposures.model.FilmMedium
+import com.exposures.model.FilmMediumStatus
+import com.exposures.model.FilmMediumType
 import com.exposures.model.Lens
 import com.exposures.model.LensType
 import com.exposures.model.LightMeter
 import com.exposures.model.LightMeterType
 import com.exposures.model.PhotoStatus
-import com.exposures.model.RollStatus
 import com.exposures.model.ShutterSpeed
 import com.exposures.model.ShutterSpeedKind
 import com.exposures.model.StopIncrement
@@ -133,7 +134,7 @@ fun FilmBackDto.toDomain(syncStatus: SyncStatus) = FilmBack(
     remoteId = remoteId,
 )
 
-fun FilmRoll.toDto() = FilmRollDto(
+fun FilmMedium.toDto() = FilmMediumDto(
     id = id,
     name = name,
     filmStock = filmStock,
@@ -143,6 +144,7 @@ fun FilmRoll.toDto() = FilmRollDto(
     cameraBodyId = cameraBodyId,
     lightMeterId = lightMeterId,
     filmBackId = filmBackId,
+    type = type.name,
     targetFrameCount = targetFrameCount,
     status = status.name,
     createdAt = createdAt,
@@ -150,7 +152,7 @@ fun FilmRoll.toDto() = FilmRollDto(
     remoteId = remoteId,
 )
 
-fun FilmRollDto.toDomain(syncStatus: SyncStatus) = FilmRoll(
+fun FilmMediumDto.toDomain(syncStatus: SyncStatus) = FilmMedium(
     id = id,
     name = name,
     filmStock = filmStock,
@@ -160,8 +162,9 @@ fun FilmRollDto.toDomain(syncStatus: SyncStatus) = FilmRoll(
     cameraBodyId = cameraBodyId,
     lightMeterId = lightMeterId,
     filmBackId = filmBackId,
+    type = FilmMediumType.valueOf(type),
     targetFrameCount = targetFrameCount,
-    status = RollStatus.valueOf(status),
+    status = FilmMediumStatus.valueOf(status),
     createdAt = createdAt,
     updatedAt = updatedAt,
     syncStatus = syncStatus,
@@ -170,7 +173,7 @@ fun FilmRollDto.toDomain(syncStatus: SyncStatus) = FilmRoll(
 
 fun Exposure.toDto() = ExposureDto(
     id = id,
-    filmRollId = filmRollId,
+    filmMediumId = filmMediumId,
     frameNumber = frameNumber,
     lensId = lensId,
     shutterSpeed = shutterSpeed.toDto(),
@@ -189,7 +192,7 @@ fun Exposure.toDto() = ExposureDto(
 
 fun ExposureDto.toDomain(syncStatus: SyncStatus) = Exposure(
     id = id,
-    filmRollId = filmRollId,
+    filmMediumId = filmMediumId,
     frameNumber = frameNumber,
     lensId = lensId,
     shutterSpeed = shutterSpeed.toDomain(),

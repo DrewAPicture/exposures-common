@@ -3,7 +3,7 @@ package com.exposures.datalayer.contract
 import com.exposures.datalayer.DataLayerJson
 import com.exposures.datalayer.dto.CreateExposureCommand
 import com.exposures.datalayer.dto.ExposureDto
-import com.exposures.datalayer.dto.FilmRollDto
+import com.exposures.datalayer.dto.FilmMediumDto
 import com.exposures.datalayer.dto.LensDto
 import com.exposures.datalayer.dto.ShutterSpeedDto
 import org.junit.Assert.assertEquals
@@ -19,16 +19,17 @@ import org.junit.Test
 class ContractJsonCompatibilityTest {
 
     @Test
-    fun `FilmRollDto colorType defaults to COLOR when absent from an older payload`() {
+    fun `FilmMediumDto colorType defaults to COLOR when absent from an older payload`() {
         val legacyJson = """
             [{
-              "id": "roll-1",
+              "id": "medium-1",
               "name": "Tri-X",
               "filmStock": "Tri-X 400",
               "boxSpeedIso": 400,
               "format": "ROLL_6X7",
               "cameraBodyId": "body-1",
               "filmBackId": "back-1",
+              "type": "ROLL",
               "targetFrameCount": 10,
               "status": "AVAILABLE",
               "createdAt": 0,
@@ -36,7 +37,7 @@ class ContractJsonCompatibilityTest {
             }]
         """.trimIndent()
 
-        val decoded = DataLayerJson.decodeRolls(legacyJson)
+        val decoded = DataLayerJson.decodeFilmMedia(legacyJson)
 
         assertEquals("COLOR", decoded.single().colorType)
     }
@@ -88,7 +89,7 @@ class ContractJsonCompatibilityTest {
         val legacyJson = """
             [{
               "id": "exp-1",
-              "filmRollId": "roll-1",
+              "filmMediumId": "medium-1",
               "frameNumber": 1,
               "lensId": "lens-1",
               "shutterSpeed": {"kind": "FRACTION", "numerator": 1, "denominator": 125},
@@ -167,7 +168,7 @@ class ContractJsonCompatibilityTest {
     fun `canonical ExposureDto round-trips through encode and decode`() {
         val original = ExposureDto(
             id = "exp-1",
-            filmRollId = "roll-1",
+            filmMediumId = "medium-1",
             frameNumber = 3,
             lensId = "lens-1",
             shutterSpeed = ShutterSpeedDto(kind = "FRACTION", numerator = 1, denominator = 125),
@@ -189,10 +190,10 @@ class ContractJsonCompatibilityTest {
     }
 
     @Test
-    fun `canonical FilmRollDto round-trips through encode and decode`() {
-        val original = FilmRollDto(
-            id = "roll-1",
-            name = "Roll 1",
+    fun `canonical FilmMediumDto round-trips through encode and decode`() {
+        val original = FilmMediumDto(
+            id = "medium-1",
+            name = "Film 1",
             filmStock = "Tri-X 400",
             boxSpeedIso = 400,
             format = "ROLL_6X7",
@@ -200,6 +201,7 @@ class ContractJsonCompatibilityTest {
             cameraBodyId = "body-1",
             lightMeterId = null,
             filmBackId = "back-1",
+            type = "ROLL",
             targetFrameCount = 10,
             status = "AVAILABLE",
             createdAt = 0,
@@ -207,7 +209,7 @@ class ContractJsonCompatibilityTest {
             remoteId = null,
         )
 
-        val decoded = DataLayerJson.decodeRolls(DataLayerJson.encodeRolls(listOf(original)))
+        val decoded = DataLayerJson.decodeFilmMedia(DataLayerJson.encodeFilmMedia(listOf(original)))
 
         assertEquals(listOf(original), decoded)
     }

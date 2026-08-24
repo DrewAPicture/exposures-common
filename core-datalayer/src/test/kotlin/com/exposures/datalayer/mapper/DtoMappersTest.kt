@@ -6,12 +6,13 @@ import com.exposures.model.FilmBack
 import com.exposures.model.FilmBackType
 import com.exposures.model.FilmColorType
 import com.exposures.model.FilmFormat
-import com.exposures.model.FilmRoll
+import com.exposures.model.FilmMedium
+import com.exposures.model.FilmMediumStatus
+import com.exposures.model.FilmMediumType
 import com.exposures.model.Lens
 import com.exposures.model.LightMeter
 import com.exposures.model.LightMeterType
 import com.exposures.model.PhotoStatus
-import com.exposures.model.RollStatus
 import com.exposures.model.ShutterSpeed
 import com.exposures.model.StopIncrement
 import com.exposures.model.SyncStatus
@@ -92,10 +93,10 @@ class DtoMappersTest {
     }
 
     @Test
-    fun `film roll round-trips through its dto, including an unset light meter`() {
-        val original = FilmRoll(
-            id = "roll-1",
-            name = "Portra 400 — Roll 1",
+    fun `film medium round-trips through its dto, including an unset light meter`() {
+        val original = FilmMedium(
+            id = "medium-1",
+            name = "Portra 400 — Film 1",
             filmStock = "Kodak Portra 400",
             boxSpeedIso = 400,
             format = FilmFormat.MEDIUM_FORMAT_120,
@@ -103,8 +104,9 @@ class DtoMappersTest {
             cameraBodyId = "body-1",
             lightMeterId = null,
             filmBackId = "back-1",
+            type = FilmMediumType.ROLL,
             targetFrameCount = 10,
-            status = RollStatus.AVAILABLE,
+            status = FilmMediumStatus.AVAILABLE,
             createdAt = 1L,
             updatedAt = 2L,
             syncStatus = SyncStatus.SYNCED,
@@ -115,10 +117,10 @@ class DtoMappersTest {
     }
 
     @Test
-    fun `film roll round-trips through its dto with a light meter assigned`() {
-        val original = FilmRoll(
-            id = "roll-1",
-            name = "HP5 Plus — Roll 1",
+    fun `film medium round-trips through its dto with a light meter assigned`() {
+        val original = FilmMedium(
+            id = "medium-1",
+            name = "HP5 Plus — Film 1",
             filmStock = "Ilford HP5 Plus",
             boxSpeedIso = 400,
             format = FilmFormat.MEDIUM_FORMAT_120,
@@ -126,8 +128,33 @@ class DtoMappersTest {
             cameraBodyId = "body-1",
             lightMeterId = "meter-1",
             filmBackId = "back-1",
+            type = FilmMediumType.ROLL,
             targetFrameCount = 10,
-            status = RollStatus.AVAILABLE,
+            status = FilmMediumStatus.AVAILABLE,
+            createdAt = 1L,
+            updatedAt = 2L,
+            syncStatus = SyncStatus.SYNCED,
+            remoteId = null,
+        )
+
+        assertEquals(original, original.toDto().toDomain(syncStatus = SyncStatus.SYNCED))
+    }
+
+    @Test
+    fun `sheet film medium round-trips through its dto with no film back`() {
+        val original = FilmMedium(
+            id = "medium-1",
+            name = "Tri-X Sheet Pack",
+            filmStock = "Kodak Tri-X 320",
+            boxSpeedIso = 320,
+            format = FilmFormat.LARGE_FORMAT,
+            colorType = FilmColorType.BLACK_AND_WHITE,
+            cameraBodyId = "body-1",
+            lightMeterId = null,
+            filmBackId = null,
+            type = FilmMediumType.SHEET,
+            targetFrameCount = 10,
+            status = FilmMediumStatus.AVAILABLE,
             createdAt = 1L,
             updatedAt = 2L,
             syncStatus = SyncStatus.SYNCED,
@@ -141,7 +168,7 @@ class DtoMappersTest {
     fun `exposure round-trips through its dto, including a zone`() {
         val original = Exposure(
             id = "exp-1",
-            filmRollId = "roll-1",
+            filmMediumId = "medium-1",
             frameNumber = 3,
             lensId = "lens-1",
             focalLengthMm = null,
@@ -167,7 +194,7 @@ class DtoMappersTest {
     fun `exposure isFavorite round-trips through its dto`() {
         val original = Exposure(
             id = "exp-1",
-            filmRollId = "roll-1",
+            filmMediumId = "medium-1",
             frameNumber = 3,
             lensId = "lens-1",
             focalLengthMm = null,
@@ -194,7 +221,7 @@ class DtoMappersTest {
     fun `exposure with no zone round-trips through its dto`() {
         val original = Exposure(
             id = "exp-1",
-            filmRollId = "roll-1",
+            filmMediumId = "medium-1",
             frameNumber = 3,
             lensId = "lens-1",
             focalLengthMm = null,
@@ -220,7 +247,7 @@ class DtoMappersTest {
     fun `photo status dto reflects the exposure's current status`() {
         val exposure = Exposure(
             id = "exp-1",
-            filmRollId = "roll-1",
+            filmMediumId = "medium-1",
             frameNumber = 1,
             lensId = "lens-1",
             focalLengthMm = null,
