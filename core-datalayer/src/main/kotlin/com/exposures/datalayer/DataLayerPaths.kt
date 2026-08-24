@@ -19,7 +19,6 @@ object DataLayerPaths {
     const val EXPOSURES = "/exposures" // watch writes, phone reads
     const val PHOTO_STATUSES = "/photo-status" // phone writes, watch reads
 
-    const val CAPTURE_PHOTO_COMMAND = "/command/capture-photo" // watch -> phone (MessageClient)
     const val CAPTURE_RESULT_COMMAND = "/command/capture-result" // phone -> watch (MessageClient)
     const val COMPLETE_ROLL_COMMAND = "/command/complete-roll" // watch -> phone (MessageClient)
     const val REQUEST_ROLLS_SYNC_COMMAND = "/command/request-rolls-sync" // watch -> phone (MessageClient)

@@ -112,13 +112,6 @@ data class PhotoStatusDto(
 )
 
 @Serializable
-data class CapturePhotoCommand(
-    val exposureId: String,
-    val filmRollId: String,
-    val frameNumber: Int,
-)
-
-@Serializable
 data class CaptureResultCommand(
     val exposureId: String,
     val status: String,

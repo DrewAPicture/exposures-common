@@ -2,7 +2,6 @@ package com.exposures.datalayer.contract
 
 import com.exposures.datalayer.DataLayerPaths
 import com.exposures.datalayer.dto.CameraBodyDto
-import com.exposures.datalayer.dto.CapturePhotoCommand
 import com.exposures.datalayer.dto.CaptureResultCommand
 import com.exposures.datalayer.dto.CompleteRollCommand
 import com.exposures.datalayer.dto.CreateExposureAckCommand
@@ -56,13 +55,6 @@ object ContractSpecGenerator {
         "ROLLS" to PathMeta("dataItem", "phone", "watch", "FilmRollDto", "array"),
         "EXPOSURES" to PathMeta("dataItem", "watch", "phone", "ExposureDto", "array"),
         "PHOTO_STATUSES" to PathMeta("dataItem", "phone", "watch", "PhotoStatusDto", "array"),
-        "CAPTURE_PHOTO_COMMAND" to PathMeta(
-            kind = "command",
-            writer = "watch",
-            reader = "phone",
-            payloadSchema = "CapturePhotoCommand",
-            payloadCardinality = "object",
-        ),
         "CAPTURE_RESULT_COMMAND" to PathMeta(
             kind = "command",
             writer = "phone",
@@ -129,7 +121,6 @@ object ContractSpecGenerator {
         serializer<FilmRollDto>(),
         serializer<ExposureDto>(),
         serializer<PhotoStatusDto>(),
-        serializer<CapturePhotoCommand>(),
         serializer<CaptureResultCommand>(),
         serializer<CompleteRollCommand>(),
         serializer<CreateExposureCommand>(),

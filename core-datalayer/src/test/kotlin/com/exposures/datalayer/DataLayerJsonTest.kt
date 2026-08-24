@@ -1,7 +1,6 @@
 package com.exposures.datalayer
 
 import com.exposures.datalayer.dto.CameraBodyDto
-import com.exposures.datalayer.dto.CapturePhotoCommand
 import com.exposures.datalayer.dto.CaptureResultCommand
 import com.exposures.datalayer.dto.CreateExposureAckCommand
 import com.exposures.datalayer.dto.CreateExposureCommand
@@ -80,12 +79,6 @@ class DataLayerJsonTest {
     fun `photo statuses round-trip through json`() {
         val statuses = listOf(PhotoStatusDto(exposureId = "exp-1", referencePhotoStatus = "CAPTURED", remoteUrl = null))
         assertEquals(statuses, DataLayerJson.decodePhotoStatuses(DataLayerJson.encodePhotoStatuses(statuses)))
-    }
-
-    @Test
-    fun `capture-photo command round-trips through json`() {
-        val command = CapturePhotoCommand(exposureId = "exp-1", filmRollId = "roll-1", frameNumber = 3)
-        assertEquals(command, DataLayerJson.decodeCapturePhotoCommand(DataLayerJson.encodeCapturePhotoCommand(command)))
     }
 
     @Test

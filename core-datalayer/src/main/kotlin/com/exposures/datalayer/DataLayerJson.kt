@@ -1,7 +1,6 @@
 package com.exposures.datalayer
 
 import com.exposures.datalayer.dto.CameraBodyDto
-import com.exposures.datalayer.dto.CapturePhotoCommand
 import com.exposures.datalayer.dto.CaptureResultCommand
 import com.exposures.datalayer.dto.CompleteRollCommand
 import com.exposures.datalayer.dto.CreateExposureAckCommand
@@ -39,9 +38,6 @@ object DataLayerJson {
 
     fun encodePhotoStatuses(value: List<PhotoStatusDto>): String = instance.encodeToString(value)
     fun decodePhotoStatuses(json: String): List<PhotoStatusDto> = instance.decodeFromString(json)
-
-    fun encodeCapturePhotoCommand(value: CapturePhotoCommand): String = instance.encodeToString(value)
-    fun decodeCapturePhotoCommand(json: String): CapturePhotoCommand = instance.decodeFromString(json)
 
     fun encodeCaptureResultCommand(value: CaptureResultCommand): String = instance.encodeToString(value)
     fun decodeCaptureResultCommand(json: String): CaptureResultCommand = instance.decodeFromString(json)
