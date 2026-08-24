@@ -2,6 +2,14 @@
 
 All notable changes to `exposures-common`'s public surface (`core-model`, `core-datalayer`, `core-database-common`) are recorded here.
 
+## [0.7.0] — 2026-08-24: FilmMedium (roll and sheet film)
+
+Minor bump (matches this repo's precedent of staying pre-1.0 for breaking changes) — the tracked unit of film is now `FilmMedium`, typed `ROLL` or `SHEET` via the new `FilmMediumType` enum. A `SHEET` medium (large-format film exposed one sheet at a time, no roll back) leaves `filmBackId` unset; a `ROLL` medium requires it as before. `targetFrameCount` covers both cases unchanged — for `SHEET` it's the sheet count in the pack.
+
+`core-model`: `FilmRoll` → `FilmMedium` (`filmBackId` now nullable, new `type: FilmMediumType` field), `RollStatus` → `FilmMediumStatus`, `Exposure.filmRollId` → `filmMediumId`. `core-datalayer`: `FilmRollDto` → `FilmMediumDto`, `CompleteRollCommand` → `CompleteFilmMediumCommand` (field `rollId` → `filmMediumId`), `DataLayerPaths.ROLLS`/`COMPLETE_ROLL_COMMAND`/`REQUEST_ROLLS_SYNC_COMMAND` → `FILM_MEDIA`/`COMPLETE_FILM_MEDIUM_COMMAND`/`REQUEST_FILM_MEDIA_SYNC_COMMAND`, matching `DataLayerJson` encode/decode functions renamed. `core-database-common`: `Converters.fromRollStatus`/`toRollStatus` → `fromFilmMediumStatus`/`toFilmMediumStatus`, plus new `fromFilmMediumType`/`toFilmMediumType`. `docs/contracts/data-layer.json` regenerated.
+
+Breaking (rename + nullability change) but no consumer-facing migration needed — both apps are pre-launch. Both phone and watch must bump `exposuresCommon` to 0.7.0, update consumer code, and rename their own `FilmRoll`-named DB entities/DAOs/sync classes/UI to match.
+
 ## [0.6.0] — 2026-08-24: Remove CAPTURE_PHOTO_COMMAND
 
 Minor bump (matches this repo's precedent of staying pre-1.0 for breaking changes) — removes `CAPTURE_PHOTO_COMMAND` (`/command/capture-photo`) and `CapturePhotoCommand`. The watch no longer requests photo capture via a separate message; the phone now triggers capture directly from the exposure-sync merge step when it observes a genuinely new exposure ID, eliminating a `DataClient`/`MessageClient` ordering race that could silently drop capture requests.
