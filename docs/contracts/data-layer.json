@@ -38,13 +38,13 @@
         "cardinality": "object"
       }
     },
-    "COMPLETE_ROLL_COMMAND": {
-      "value": "/command/complete-roll",
+    "COMPLETE_FILM_MEDIUM_COMMAND": {
+      "value": "/command/complete-film-medium",
       "kind": "command",
       "writer": "watch",
       "reader": "phone",
       "payload": {
-        "$ref": "CompleteRollCommand",
+        "$ref": "CompleteFilmMediumCommand",
         "cardinality": "object"
       }
     },
@@ -102,6 +102,16 @@
         "cardinality": "array"
       }
     },
+    "FILM_MEDIA": {
+      "value": "/film-media",
+      "kind": "dataItem",
+      "writer": "phone",
+      "reader": "watch",
+      "payload": {
+        "$ref": "FilmMediumDto",
+        "cardinality": "array"
+      }
+    },
     "KEY_PAYLOAD": {
       "value": "payload",
       "kind": "payloadKey",
@@ -137,22 +147,12 @@
         "cardinality": "array"
       }
     },
-    "REQUEST_ROLLS_SYNC_COMMAND": {
-      "value": "/command/request-rolls-sync",
+    "REQUEST_FILM_MEDIA_SYNC_COMMAND": {
+      "value": "/command/request-film-media-sync",
       "kind": "command",
       "writer": "watch",
       "reader": "phone",
-      "notes": "empty payload; phone responds by pushing current equipment/roll DataItems"
-    },
-    "ROLLS": {
-      "value": "/rolls",
-      "kind": "dataItem",
-      "writer": "phone",
-      "reader": "watch",
-      "payload": {
-        "$ref": "FilmRollDto",
-        "cardinality": "array"
-      }
+      "notes": "empty payload; phone responds by pushing current equipment/film media DataItems"
     }
   },
   "schemas": {
@@ -432,9 +432,9 @@
         }
       ]
     },
-    "FilmRollDto": {
+    "FilmMediumDto": {
       "type": "object",
-      "serialName": "com.exposures.datalayer.dto.FilmRollDto",
+      "serialName": "com.exposures.datalayer.dto.FilmMediumDto",
       "fields": [
         {
           "name": "id",
@@ -486,6 +486,12 @@
         },
         {
           "name": "filmBackId",
+          "optional": true,
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "name": "type",
           "optional": false,
           "nullable": false,
           "type": "string"
@@ -533,7 +539,7 @@
           "type": "string"
         },
         {
-          "name": "filmRollId",
+          "name": "filmMediumId",
           "optional": false,
           "nullable": false,
           "type": "string"
@@ -666,12 +672,12 @@
         }
       ]
     },
-    "CompleteRollCommand": {
+    "CompleteFilmMediumCommand": {
       "type": "object",
-      "serialName": "com.exposures.datalayer.dto.CompleteRollCommand",
+      "serialName": "com.exposures.datalayer.dto.CompleteFilmMediumCommand",
       "fields": [
         {
-          "name": "rollId",
+          "name": "filmMediumId",
           "optional": false,
           "nullable": false,
           "type": "string"
