@@ -28,16 +28,6 @@
       "kind": "capability",
       "notes": "both apps advertise this so each side can find the other's connected node"
     },
-    "CAPTURE_PHOTO_COMMAND": {
-      "value": "/command/capture-photo",
-      "kind": "command",
-      "writer": "watch",
-      "reader": "phone",
-      "payload": {
-        "$ref": "CapturePhotoCommand",
-        "cardinality": "object"
-      }
-    },
     "CAPTURE_RESULT_COMMAND": {
       "value": "/command/capture-result",
       "kind": "command",
@@ -655,30 +645,6 @@
           "optional": true,
           "nullable": true,
           "type": "string"
-        }
-      ]
-    },
-    "CapturePhotoCommand": {
-      "type": "object",
-      "serialName": "com.exposures.datalayer.dto.CapturePhotoCommand",
-      "fields": [
-        {
-          "name": "exposureId",
-          "optional": false,
-          "nullable": false,
-          "type": "string"
-        },
-        {
-          "name": "filmRollId",
-          "optional": false,
-          "nullable": false,
-          "type": "string"
-        },
-        {
-          "name": "frameNumber",
-          "optional": false,
-          "nullable": false,
-          "type": "integer"
         }
       ]
     },
