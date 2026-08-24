@@ -2,6 +2,14 @@
 
 All notable changes to `exposures-common`'s public surface (`core-model`, `core-datalayer`, `core-database-common`) are recorded here.
 
+## [0.6.0] — 2026-08-24: Remove CAPTURE_PHOTO_COMMAND
+
+Minor bump (matches this repo's precedent of staying pre-1.0 for breaking changes) — removes `CAPTURE_PHOTO_COMMAND` (`/command/capture-photo`) and `CapturePhotoCommand`. The watch no longer requests photo capture via a separate message; the phone now triggers capture directly from the exposure-sync merge step when it observes a genuinely new exposure ID, eliminating a `DataClient`/`MessageClient` ordering race that could silently drop capture requests.
+
+Breaking (command/DTO removal) but no consumer-facing migration needed — both apps are pre-launch. Both phone and watch must bump `exposuresCommon` to 0.6.0 and update the corresponding consumer code.
+
+Note: the changelog's previous newest entry was 0.4.0, but the repo was already tagged at 0.5.0 (`isFavorite` on `Exposure`) — that entry was never added here. Flagging the gap rather than backfilling it retroactively.
+
 ## [0.4.0] — 2026-08-21: Lens focal length model (Prime + Zoom)
 
 Minor bump — new lens/exposure fields, additive.
