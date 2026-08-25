@@ -575,7 +575,7 @@
           "type": "integer"
         },
         {
-          "name": "zone",
+          "name": "exposureValue",
           "optional": true,
           "nullable": true,
           "type": "integer"

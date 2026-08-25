@@ -95,7 +95,7 @@ data class ExposureDto(
     val shutterSpeed: ShutterSpeedDto,
     val aperture: Double,
     val isoUsed: Int,
-    val zone: Int? = null,
+    val exposureValue: Int? = null,
     val notes: String? = null,
     val focalLengthMm: Int? = null,
     val capturedAt: Long,

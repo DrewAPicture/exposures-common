@@ -165,7 +165,7 @@ class DtoMappersTest {
     }
 
     @Test
-    fun `exposure round-trips through its dto, including a zone`() {
+    fun `exposure round-trips through its dto, including an exposure value`() {
         val original = Exposure(
             id = "exp-1",
             filmMediumId = "medium-1",
@@ -175,7 +175,7 @@ class DtoMappersTest {
             shutterSpeed = ShutterSpeed.fraction(250),
             aperture = 5.6,
             isoUsed = 400,
-            zone = 3,
+            exposureValue = 3,
             notes = "backlit",
             capturedAt = 100L,
             referencePhotoStatus = PhotoStatus.NONE,
@@ -201,7 +201,7 @@ class DtoMappersTest {
             shutterSpeed = ShutterSpeed.fraction(250),
             aperture = 5.6,
             isoUsed = 400,
-            zone = null,
+            exposureValue = null,
             notes = null,
             capturedAt = 100L,
             referencePhotoStatus = PhotoStatus.NONE,
@@ -218,7 +218,7 @@ class DtoMappersTest {
     }
 
     @Test
-    fun `exposure with no zone round-trips through its dto`() {
+    fun `exposure with no exposure value round-trips through its dto`() {
         val original = Exposure(
             id = "exp-1",
             filmMediumId = "medium-1",
@@ -228,7 +228,7 @@ class DtoMappersTest {
             shutterSpeed = ShutterSpeed.fraction(250),
             aperture = 5.6,
             isoUsed = 400,
-            zone = null,
+            exposureValue = null,
             notes = "backlit",
             capturedAt = 100L,
             referencePhotoStatus = PhotoStatus.NONE,
@@ -254,7 +254,7 @@ class DtoMappersTest {
             shutterSpeed = ShutterSpeed.fraction(125),
             aperture = 8.0,
             isoUsed = 400,
-            zone = null,
+            exposureValue = null,
             notes = null,
             capturedAt = 0L,
             referencePhotoStatus = PhotoStatus.CAPTURED,

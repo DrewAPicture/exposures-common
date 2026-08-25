@@ -11,8 +11,8 @@ data class Exposure(
     val shutterSpeed: ShutterSpeed,
     val aperture: Double,
     val isoUsed: Int,
-    /** 0..10 (Zone 0..X); required when the film medium's light meter is [LightMeterType.SPOT], else null. */
-    val zone: Int?,
+    /** 1..20 EV; required when the film medium's light meter is [LightMeterType.SPOT], else null. */
+    val exposureValue: Int?,
     val notes: String?,
     val capturedAt: Long,
     val referencePhotoStatus: PhotoStatus,

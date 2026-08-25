@@ -104,7 +104,7 @@ class ContractJsonCompatibilityTest {
 
         val decoded = DataLayerJson.decodeExposures(legacyJson).single()
 
-        assertNull(decoded.zone)
+        assertNull(decoded.exposureValue)
         assertNull(decoded.notes)
         assertNull(decoded.focalLengthMm)
         assertNull(decoded.remoteId)
@@ -174,7 +174,7 @@ class ContractJsonCompatibilityTest {
             shutterSpeed = ShutterSpeedDto(kind = "FRACTION", numerator = 1, denominator = 125),
             aperture = 8.0,
             isoUsed = 400,
-            zone = 6,
+            exposureValue = 6,
             notes = "backlit",
             focalLengthMm = 50,
             capturedAt = 1_000L,

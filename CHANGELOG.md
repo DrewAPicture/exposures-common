@@ -2,6 +2,14 @@
 
 All notable changes to `exposures-common`'s public surface (`core-model`, `core-datalayer`, `core-database-common`) are recorded here.
 
+## [0.8.0] — 2026-08-25: Zone → EV (exposure value)
+
+Minor bump (matches this repo's precedent of staying pre-1.0 for breaking changes) — replaces the Ansel Adams Zone System (`Int` 0..10, roman-numeral labels) with a plain numeric EV (exposure value) scale, `Int` 1..20, default 10.
+
+`core-model`: `Zone` → `ExposureValue` (`MIN`/`MAX`/`DEFAULT` = 1/20/10; `label()` now returns the plain number rather than a roman numeral), `Exposure.zone` → `exposureValue`. `core-datalayer`: `ExposureDto.zone` → `exposureValue`, `DtoMappers.kt` updated. `docs/contracts/data-layer.json` regenerated.
+
+Breaking (rename + range/default change) but no consumer-facing migration needed — both apps are pre-launch. Both phone and watch must bump `exposuresCommon` to 0.8.0, update consumer code, and rename their own `zone`-named DB columns/UI/exports to match (exports label the field "Exposure Value"; in-app UI uses the short label "EV").
+
 ## [0.7.0] — 2026-08-24: FilmMedium (roll and sheet film)
 
 Minor bump (matches this repo's precedent of staying pre-1.0 for breaking changes) — the tracked unit of film is now `FilmMedium`, typed `ROLL` or `SHEET` via the new `FilmMediumType` enum. A `SHEET` medium (large-format film exposed one sheet at a time, no roll back) leaves `filmBackId` unset; a `ROLL` medium requires it as before. `targetFrameCount` covers both cases unchanged — for `SHEET` it's the sheet count in the pack.
